@@ -8,6 +8,8 @@ const scrollRails = document.querySelectorAll("[data-scroll-rail]");
 const documentLinks = document.querySelectorAll(".doc-link, [data-document-link]");
 const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image]"));
 let activeGalleryIndex = 0;
+const wheelDeltaPixelMode = 0;
+const mouseWheelScrollThreshold = 80;
 
 if (year) {
   year.textContent = new Date().getFullYear();
@@ -193,7 +195,9 @@ const updateScrollRails = () => {
   scrollRails.forEach((rail) => {
     const track = rail.querySelector("[data-scroll-track]");
     if (!track) return;
+    const maxScrollLeft = track.scrollWidth - track.clientWidth;
     rail.classList.toggle("has-scroll-left", track.scrollLeft > 12);
+    rail.classList.toggle("has-scroll-right", track.scrollLeft < maxScrollLeft - 12);
   });
 };
 
@@ -207,5 +211,34 @@ window.addEventListener("resize", updateScrollRails);
 
 scrollRails.forEach((rail) => {
   const track = rail.querySelector("[data-scroll-track]");
-  if (track) track.addEventListener("scroll", updateScrollRails, { passive: true });
+  if (!track) return;
+
+  track.querySelectorAll("img").forEach((image) => {
+    image.setAttribute("draggable", "false");
+  });
+
+  track.addEventListener(
+    "wheel",
+    (event) => {
+      const isPrecisePointer = event.deltaMode === wheelDeltaPixelMode && Math.abs(event.deltaY) < mouseWheelScrollThreshold;
+      const hasNativeHorizontalIntent = Math.abs(event.deltaX) > 0;
+      const shouldConvertMouseWheel = !event.ctrlKey && !hasNativeHorizontalIntent && !isPrecisePointer;
+
+      if (!shouldConvertMouseWheel) return;
+
+      const maxScrollLeft = track.scrollWidth - track.clientWidth;
+      const canScrollLeft = track.scrollLeft > 0;
+      const canScrollRight = track.scrollLeft < maxScrollLeft;
+      const scrollingLeft = event.deltaY < 0;
+      const scrollingRight = event.deltaY > 0;
+
+      if ((scrollingLeft && canScrollLeft) || (scrollingRight && canScrollRight)) {
+        event.preventDefault();
+        track.scrollBy({ left: event.deltaY, behavior: "auto" });
+      }
+    },
+    { passive: false },
+  );
+
+  track.addEventListener("scroll", updateScrollRails, { passive: true });
 });

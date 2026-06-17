@@ -327,6 +327,10 @@ main > .section,
 
 .scroll-rail {
   position: relative;
+  width: calc(100vw - clamp(36px, 10vw, 144px));
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .scroll-rail::before,
@@ -350,9 +354,14 @@ main > .section,
 .scroll-rail::after {
   right: 0;
   background: linear-gradient(90deg, rgba(9, 11, 15, 0), rgba(9, 11, 15, 0.9));
+  opacity: 0;
 }
 
 .scroll-rail.has-scroll-left::before {
+  opacity: 1;
+}
+
+.scroll-rail.has-scroll-right::after {
   opacity: 1;
 }
 
@@ -360,11 +369,15 @@ main > .section,
 .personal-grid {
   display: flex;
   gap: 14px;
+  width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   padding: 0 clamp(42px, 8vw, 110px) 18px 0;
   scroll-padding-inline: clamp(18px, 5vw, 72px);
   scroll-snap-type: x proximity;
   overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 
@@ -419,6 +432,8 @@ main > .section,
   min-height: 390px;
   object-fit: cover;
   transition: transform 240ms ease;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .production-card::after {
