@@ -10,6 +10,7 @@ const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image
 let activeGalleryIndex = 0;
 const wheelDeltaPixelMode = 0;
 const mouseWheelScrollThreshold = 30;
+const mouseWheelScrollMultiplier = 2.4;
 
 if (year) {
   year.textContent = new Date().getFullYear();
@@ -234,7 +235,7 @@ scrollRails.forEach((rail) => {
 
       if ((scrollingLeft && canScrollLeft) || (scrollingRight && canScrollRight)) {
         event.preventDefault();
-        track.scrollBy({ left: event.deltaY, behavior: "auto" });
+        track.scrollBy({ left: event.deltaY * mouseWheelScrollMultiplier, behavior: "auto" });
       }
     },
     { passive: false },
