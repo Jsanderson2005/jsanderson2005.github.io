@@ -9,8 +9,17 @@ const documentLinks = document.querySelectorAll(".doc-link, [data-document-link]
 const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image]"));
 let activeGalleryIndex = 0;
 const wheelDeltaPixelMode = 0;
-const mouseWheelScrollThreshold = 30;
-const mouseWheelScrollMultiplier = 5;
+const wheelDeltaLineMode = 1;
+const wheelDeltaPageMode = 2;
+const mouseWheelScrollThreshold = 50;
+const mouseWheelScrollMultiplier = 2.1;
+const wheelLineHeight = 56;
+
+const normalizeWheelDelta = (event, track) => {
+  if (event.deltaMode === wheelDeltaLineMode) return event.deltaY * wheelLineHeight;
+  if (event.deltaMode === wheelDeltaPageMode) return event.deltaY * track.clientWidth;
+  return event.deltaY;
+};
 
 if (year) {
   year.textContent = new Date().getFullYear();
@@ -221,9 +230,9 @@ scrollRails.forEach((rail) => {
   track.addEventListener(
     "wheel",
     (event) => {
+      const horizontalIntent = Math.abs(event.deltaX) > Math.abs(event.deltaY) * 0.25;
       const isPrecisePointer = event.deltaMode === wheelDeltaPixelMode && Math.abs(event.deltaY) < mouseWheelScrollThreshold;
-      const hasNativeHorizontalIntent = Math.abs(event.deltaX) > 0;
-      const shouldConvertMouseWheel = !event.ctrlKey && !hasNativeHorizontalIntent && !isPrecisePointer;
+      const shouldConvertMouseWheel = !event.ctrlKey && !horizontalIntent && !isPrecisePointer;
 
       if (!shouldConvertMouseWheel) return;
 
@@ -232,10 +241,11 @@ scrollRails.forEach((rail) => {
       const canScrollRight = track.scrollLeft < maxScrollLeft;
       const scrollingLeft = event.deltaY < 0;
       const scrollingRight = event.deltaY > 0;
+      const scrollAmount = normalizeWheelDelta(event, track) * mouseWheelScrollMultiplier;
 
       if ((scrollingLeft && canScrollLeft) || (scrollingRight && canScrollRight)) {
         event.preventDefault();
-        track.scrollBy({ left: event.deltaY * mouseWheelScrollMultiplier, behavior: "auto" });
+        track.scrollBy({ left: scrollAmount, behavior: "auto" });
       }
     },
     { passive: false },
