@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spring Opera Scenes (2025) | Joshua Sanderson</title>
+    <meta name="description" content="Spring Opera Scenes production electrician work, wireless dimming, PCB documentation, and show photos." />
+    <link rel="icon" href="../assets/js-powder-logo-512.png" type="image/png" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"><img src="../assets/js-powder-logo-512.png" alt="" /></span>
+        <span>Joshua Sanderson</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="../index.html#work">Work</a>
+        <a href="#documentation">Documentation</a>
+        <a href="mailto:hello@example.com">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="show-hero">
+        <div class="show-hero__image">
+          <img src="../assets/shows/spring-opera-hero.jpg" alt="Spring Opera Scenes production photo" />
+        </div>
+        <div class="show-hero__copy">
+          <p class="eyebrow">Production Electrician</p>
+          <h1>Spring Opera Scenes (2025)</h1>
+          <p>Photos by David Monteith-Hodge (@photographise)</p>
+          <div class="show-links">
+            <a class="back-link" href="../index.html#work">Back to productions</a>
+            <a class="back-link" href="#gallery">Gallery</a>
+            <a class="back-link" href="#documentation">Documentation</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="show-intro" aria-labelledby="role-title">
+        <div>
+          <p class="eyebrow">My role</p>
+          <h2 id="role-title">Production Electrician</h2>
+        </div>
+        <div class="role-card">
+          <p>I designed and built custom PCBs to fit into the internal terminal blocks of 2 chandeleirs to make both of them wirelessly dimmed.<br />Running off of an ESP32-C3 processor, they connected to a hidden wifi network and recieved unicast sACN.</p>
+        </div>
+      </section>
+
+      <section class="show-main">
+        <aside class="detail-stack" aria-label="Production details">
+          <div class="detail-panel">
+            <span class="label">Credits</span>
+            <ul class="credit-list">
+              <li><strong>Helen Hebert</strong> designer</li>
+              <li><strong>Toby Ison</strong> lighting designer</li>
+            </ul>
+          </div>
+        </aside>
+
+        <div class="detail-stack">
+          <section class="detail-panel" id="gallery" aria-labelledby="gallery-title">
+            <span class="label">Photos</span>
+            <h2 id="gallery-title">Show gallery</h2>
+            <div class="gallery">
+              <button type="button" data-gallery-image data-full="../assets/shows/spring-opera-hero.jpg">
+                <img src="../assets/shows/spring-opera-hero.jpg" alt="Spring Opera Scenes production lighting photo" />
+              </button>
+              <button type="button" data-gallery-image data-full="../assets/shows/spring-opera-1.jpg">
+                <img src="../assets/shows/spring-opera-1.jpg" alt="Spring Opera Scenes chandelier practicals photo" />
+              </button>
+              <button type="button" data-gallery-image data-full="../assets/shows/spring-opera-2.jpg">
+                <img src="../assets/shows/spring-opera-2.jpg" alt="Spring Opera Scenes stage photo" />
+              </button>
+            </div>
+          </section>
+
+          <section class="detail-panel" id="documentation" aria-labelledby="documentation-title">
+            <span class="label">Documentation</span>
+            <h2 id="documentation-title">Production files</h2>
+            <div class="docs-grid">
+              <a class="doc-link" href="../projects/Spring Opera Scenes/documentation/PCB Layout.pdf">PCB Layout.pdf</a>
+              <a class="doc-link" href="../projects/Spring Opera Scenes/documentation/PCB Schematic.pdf">PCB Schematic.pdf</a>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <div class="lightbox" data-lightbox aria-hidden="true">
+      <button type="button" data-lightbox-close aria-label="Close image">&times;</button>
+      <img data-lightbox-image alt="" />
+    </div>
+
+    <footer class="site-footer">
+      <p>&copy; <span data-year></span> Joshua Sanderson</p>
+      <a href="../index.html#work">All productions</a>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>
