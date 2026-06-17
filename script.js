@@ -9,7 +9,7 @@ const documentLinks = document.querySelectorAll(".doc-link, [data-document-link]
 const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image]"));
 let activeGalleryIndex = 0;
 const wheelDeltaPixelMode = 0;
-const mouseWheelScrollThreshold = 80;
+const mouseWheelScrollThreshold = 30;
 
 if (year) {
   year.textContent = new Date().getFullYear();

@@ -373,8 +373,6 @@ main > .section,
   max-width: 100%;
   overflow-x: auto;
   padding: 0 clamp(42px, 8vw, 110px) 18px 0;
-  scroll-padding-inline: clamp(18px, 5vw, 72px);
-  scroll-snap-type: x proximity;
   overscroll-behavior-x: contain;
   touch-action: pan-x pan-y;
   -webkit-overflow-scrolling: touch;
@@ -419,7 +417,6 @@ main > .section,
   border-radius: var(--radius);
   background: var(--panel);
   box-shadow: var(--shadow);
-  scroll-snap-align: start;
 }
 
 .production-card--feature {
@@ -496,7 +493,6 @@ main > .section,
     linear-gradient(135deg, rgba(244, 239, 230, 0.085), rgba(244, 239, 230, 0.025)),
     var(--panel);
   box-shadow: 0 22px 62px rgba(0, 0, 0, 0.32);
-  scroll-snap-align: start;
 }
 
 .personal-card::before {
