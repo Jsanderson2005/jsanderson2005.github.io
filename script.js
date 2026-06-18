@@ -7,7 +7,9 @@ const focusSections = document.querySelectorAll(".home-page main > section");
 const scrollRails = document.querySelectorAll("[data-scroll-rail]");
 const documentLinks = document.querySelectorAll(".doc-link, [data-document-link]");
 const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image]"));
+const personalProjectsFeature = document.querySelectorAll('[data-feature="personal-projects"]');
 let activeGalleryIndex = 0;
+const showPersonalProjects = false;
 const wheelDeltaPixelMode = 0;
 const wheelDeltaLineMode = 1;
 const wheelDeltaPageMode = 2;
@@ -32,6 +34,12 @@ const updateHeader = () => {
 
   header.classList.toggle("is-visible", shouldReveal);
   header.classList.toggle("is-scrolled", shouldReveal && window.scrollY > 8);
+};
+
+const updateFeatureFlags = () => {
+  personalProjectsFeature.forEach((element) => {
+    element.hidden = !showPersonalProjects;
+  });
 };
 
 const closeLightbox = () => {
@@ -211,6 +219,7 @@ const updateScrollRails = () => {
   });
 };
 
+updateFeatureFlags();
 updateHeader();
 updateSectionFocus();
 updateScrollRails();
