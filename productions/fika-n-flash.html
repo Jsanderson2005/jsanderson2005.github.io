@@ -30,9 +30,18 @@
           <p class="eyebrow">Production Designer/Programmer</p>
           <h1>Fika 'n' Flash</h1>
           <p>Photos by Mathew Nicholson (@matnix03) and Finn Irving (@finnirving)</p>
+          <button
+            class="button featured-video-button"
+            type="button"
+            data-video-open
+            data-video-src="https://www.youtube-nocookie.com/embed/g1xeoeOuSwc?si=hUYYrGPX6hiO-Vrz"
+            data-video-title="Fika 'n' Flash production video"
+          >
+            <span>Watch video</span>
+            <span class="featured-video-button__arrow" aria-hidden="true"></span>
+          </button>
           <div class="show-links">
             <a class="back-link" href="../index.html#work">Back to productions</a>
-            <a class="back-link" href="#video">Video</a>
             <a class="back-link" href="#gallery">Gallery</a>
             <a class="back-link" href="#documentation">Documentation</a>
           </div>
@@ -103,20 +112,6 @@
         </aside>
 
         <div class="detail-stack">
-          <section class="detail-panel" id="video" aria-labelledby="video-title">
-            <span class="label">Video</span>
-            <h2 id="video-title">Production video</h2>
-            <div class="video-embed">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/g1xeoeOuSwc?si=hUYYrGPX6hiO-Vrz"
-                title="Fika 'n' Flash production video"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-            </div>
-          </section>
-
           <section class="detail-panel" id="gallery" aria-labelledby="gallery-title">
             <span class="label">Photos</span>
             <h2 id="gallery-title">Show gallery</h2>
@@ -153,6 +148,18 @@
     <div class="lightbox" data-lightbox aria-hidden="true">
       <button type="button" data-lightbox-close aria-label="Close image">&times;</button>
       <img data-lightbox-image alt="" />
+    </div>
+
+    <div class="document-modal video-modal" data-video-modal aria-hidden="true">
+      <div class="document-modal__panel video-modal__panel" role="dialog" aria-modal="true" aria-labelledby="video-modal-title">
+        <div class="document-modal__bar">
+          <h2 id="video-modal-title">Production video</h2>
+          <div class="document-modal__actions">
+            <button class="document-modal__close" type="button" data-video-close aria-label="Close video"></button>
+          </div>
+        </div>
+        <div class="document-modal__body video-modal__body" data-video-body></div>
+      </div>
     </div>
 
     <footer class="site-footer">

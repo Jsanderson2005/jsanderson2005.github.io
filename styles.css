@@ -659,6 +659,64 @@ main > .section,
   margin-top: 26px;
 }
 
+.featured-video-button {
+  gap: 14px;
+  min-height: 58px;
+  margin-top: 20px;
+  padding: 0 clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(var(--gold-rgb), 0.44);
+  background:
+    linear-gradient(90deg, rgba(var(--gold-rgb), 0.34), rgba(var(--copper-rgb), 0.2), rgba(var(--blue-rgb), 0.14)),
+    rgba(8, 10, 14, 0.42);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.34),
+    0 0 34px rgba(var(--gold-rgb), 0.15);
+  font-size: 1rem;
+}
+
+.featured-video-button__arrow {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+  color: var(--gold);
+  opacity: 0.82;
+  transform: translateX(0) scale(1);
+  transform-origin: center;
+  transition: opacity 180ms ease, transform 220ms ease;
+}
+
+.featured-video-button__arrow::before,
+.featured-video-button__arrow::after {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 17px;
+  height: var(--lightbox-control-stroke, 2px);
+  content: "";
+  background: currentColor;
+  transform-origin: right center;
+}
+
+.featured-video-button__arrow::before {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.featured-video-button__arrow::after {
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.featured-video-button:hover {
+  box-shadow:
+    0 22px 54px rgba(0, 0, 0, 0.38),
+    0 0 42px rgba(var(--gold-rgb), 0.2);
+}
+
+.featured-video-button:hover .featured-video-button__arrow {
+  opacity: 1;
+  transform: translateX(6px) scale(1.08);
+}
+
 .show-intro {
   display: grid;
   grid-template-columns: minmax(0, 0.82fr) minmax(280px, 1fr);
@@ -812,20 +870,6 @@ main > .section,
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
-}
-
-.video-embed {
-  overflow: hidden;
-  border-radius: var(--radius);
-  background: #000;
-  box-shadow: var(--shadow);
-}
-
-.video-embed iframe {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 0;
 }
 
 .gallery button {
@@ -1184,6 +1228,16 @@ main > .section,
 .document-modal__body img {
   object-fit: contain;
   padding: 18px;
+}
+
+.video-modal__panel {
+  height: auto;
+  max-width: 1120px;
+  grid-template-rows: auto auto;
+}
+
+.video-modal__body {
+  aspect-ratio: 16 / 9;
 }
 
 .site-footer {

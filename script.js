@@ -3,6 +3,10 @@ const header = document.querySelector("[data-header]");
 const lightbox = document.querySelector("[data-lightbox]");
 const lightboxImage = document.querySelector("[data-lightbox-image]");
 const lightboxClose = document.querySelector("[data-lightbox-close]");
+const videoModal = document.querySelector("[data-video-modal]");
+const videoBody = document.querySelector("[data-video-body]");
+const videoClose = document.querySelector("[data-video-close]");
+const videoOpenButtons = document.querySelectorAll("[data-video-open]");
 const documentLinks = document.querySelectorAll(".doc-link, [data-document-link]");
 const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image]"));
 const personalProjectsFeature = document.querySelectorAll('[data-feature="personal-projects"]');
@@ -59,6 +63,35 @@ const setLightboxImage = (index) => {
 
 const showAdjacentImage = (direction) => {
   setLightboxImage(activeGalleryIndex + direction);
+};
+
+const closeVideoModal = () => {
+  if (!videoModal || !videoBody) return;
+  videoModal.classList.remove("is-open");
+  videoModal.setAttribute("aria-hidden", "true");
+  videoBody.replaceChildren();
+};
+
+const openVideoModal = (button) => {
+  if (!videoModal || !videoBody) return;
+  const title = button.dataset.videoTitle || "Production video";
+  const src = button.dataset.videoSrc;
+  const heading = videoModal.querySelector("#video-modal-title");
+
+  if (!src) return;
+  if (heading) heading.textContent = title;
+
+  videoBody.replaceChildren();
+  const iframe = document.createElement("iframe");
+  iframe.src = src;
+  iframe.title = title;
+  iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+  iframe.referrerPolicy = "strict-origin-when-cross-origin";
+  iframe.allowFullscreen = true;
+  videoBody.appendChild(iframe);
+
+  videoModal.classList.add("is-open");
+  videoModal.setAttribute("aria-hidden", "false");
 };
 
 const documentModal = (() => {
@@ -120,6 +153,20 @@ if (lightboxClose) {
   lightboxClose.addEventListener("click", closeLightbox);
 }
 
+videoOpenButtons.forEach((button) => {
+  button.addEventListener("click", () => openVideoModal(button));
+});
+
+if (videoModal) {
+  videoModal.addEventListener("click", (event) => {
+    if (event.target === videoModal) closeVideoModal();
+  });
+}
+
+if (videoClose) {
+  videoClose.addEventListener("click", closeVideoModal);
+}
+
 const closeDocumentModal = () => {
   if (!documentModal) return;
   const body = documentModal.querySelector("[data-document-body]");
@@ -174,6 +221,7 @@ window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeLightbox();
     closeDocumentModal();
+    closeVideoModal();
   }
 
   if (lightbox?.classList.contains("is-open") && event.key === "ArrowLeft") {
