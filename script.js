@@ -3,8 +3,6 @@ const header = document.querySelector("[data-header]");
 const lightbox = document.querySelector("[data-lightbox]");
 const lightboxImage = document.querySelector("[data-lightbox-image]");
 const lightboxClose = document.querySelector("[data-lightbox-close]");
-const focusSections = document.querySelectorAll(".home-page main > section");
-const scrollRails = document.querySelectorAll("[data-scroll-rail]");
 const documentLinks = document.querySelectorAll(".doc-link, [data-document-link]");
 const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image]"));
 const personalProjectsFeature = document.querySelectorAll('[data-feature="personal-projects"]');
@@ -23,6 +21,13 @@ const normalizeWheelDelta = (event, track) => {
   return event.deltaY;
 };
 
+personalProjectsFeature.forEach((element) => {
+  element.hidden = !showPersonalProjects;
+});
+
+const focusSections = document.querySelectorAll(".home-page main > section:not([hidden])");
+const scrollRails = document.querySelectorAll("[data-scroll-rail]");
+
 if (year) {
   year.textContent = new Date().getFullYear();
 }
@@ -34,12 +39,6 @@ const updateHeader = () => {
 
   header.classList.toggle("is-visible", shouldReveal);
   header.classList.toggle("is-scrolled", shouldReveal && window.scrollY > 8);
-};
-
-const updateFeatureFlags = () => {
-  personalProjectsFeature.forEach((element) => {
-    element.hidden = !showPersonalProjects;
-  });
 };
 
 const closeLightbox = () => {
@@ -219,7 +218,6 @@ const updateScrollRails = () => {
   });
 };
 
-updateFeatureFlags();
 updateHeader();
 updateSectionFocus();
 updateScrollRails();
