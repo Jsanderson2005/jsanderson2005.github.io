@@ -18,11 +18,44 @@ const wheelDeltaPageMode = 2;
 const mouseWheelScrollThreshold = 50;
 const mouseWheelScrollMultiplier = 2.1;
 const wheelLineHeight = 56;
+const focusableSelector = [
+  "a[href]",
+  "button:not([disabled])",
+  "iframe",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  "[tabindex]:not([tabindex='-1'])",
+].join(",");
+let activeModal = null;
+let modalReturnFocus = null;
 
 const normalizeWheelDelta = (event, track) => {
   if (event.deltaMode === wheelDeltaLineMode) return event.deltaY * wheelLineHeight;
   if (event.deltaMode === wheelDeltaPageMode) return event.deltaY * track.clientWidth;
   return event.deltaY;
+};
+
+const getFocusableElements = (container) => {
+  return Array.from(container.querySelectorAll(focusableSelector)).filter((element) => {
+    return element.offsetParent !== null || element === document.activeElement;
+  });
+};
+
+const activateModal = (modal, focusTarget) => {
+  modalReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+  activeModal = modal;
+  window.setTimeout(() => {
+    const target = focusTarget || getFocusableElements(modal)[0];
+    if (target instanceof HTMLElement) target.focus();
+  }, 0);
+};
+
+const deactivateModal = (modal) => {
+  if (activeModal !== modal) return;
+  activeModal = null;
+  if (modalReturnFocus instanceof HTMLElement) modalReturnFocus.focus();
+  modalReturnFocus = null;
 };
 
 personalProjectsFeature.forEach((element) => {
@@ -48,8 +81,10 @@ const updateHeader = () => {
 const closeLightbox = () => {
   if (!lightbox || !lightboxImage) return;
   lightbox.classList.remove("is-open");
+  lightbox.setAttribute("aria-hidden", "true");
   lightboxImage.removeAttribute("src");
   lightboxImage.removeAttribute("alt");
+  deactivateModal(lightbox);
 };
 
 const setLightboxImage = (index) => {
@@ -70,6 +105,7 @@ const closeVideoModal = () => {
   videoModal.classList.remove("is-open");
   videoModal.setAttribute("aria-hidden", "true");
   videoBody.replaceChildren();
+  deactivateModal(videoModal);
 };
 
 const openVideoModal = (button) => {
@@ -92,6 +128,7 @@ const openVideoModal = (button) => {
 
   videoModal.classList.add("is-open");
   videoModal.setAttribute("aria-hidden", "false");
+  activateModal(videoModal, videoClose);
 };
 
 const documentModal = (() => {
@@ -140,6 +177,8 @@ galleryButtons.forEach((button, index) => {
     if (!lightbox || !lightboxImage) return;
     setLightboxImage(index);
     lightbox.classList.add("is-open");
+    lightbox.setAttribute("aria-hidden", "false");
+    activateModal(lightbox, lightboxClose);
   });
 });
 
@@ -173,6 +212,7 @@ const closeDocumentModal = () => {
   documentModal.classList.remove("is-open");
   documentModal.setAttribute("aria-hidden", "true");
   if (body) body.replaceChildren();
+  deactivateModal(documentModal);
 };
 
 const openDocumentModal = (link) => {
@@ -195,6 +235,7 @@ const openDocumentModal = (link) => {
 
   documentModal.classList.add("is-open");
   documentModal.setAttribute("aria-hidden", "false");
+  activateModal(documentModal, documentModal.querySelector(".document-modal__close"));
 };
 
 documentLinks.forEach((link) => {
@@ -218,6 +259,22 @@ if (documentModal) {
 }
 
 window.addEventListener("keydown", (event) => {
+  if (event.key === "Tab" && activeModal) {
+    const focusableElements = getFocusableElements(activeModal);
+    if (!focusableElements.length) return;
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  }
+
   if (event.key === "Escape") {
     closeLightbox();
     closeDocumentModal();
