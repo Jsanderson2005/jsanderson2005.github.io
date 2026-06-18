@@ -814,6 +814,20 @@ main > .section,
   gap: 10px;
 }
 
+.video-embed {
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #000;
+  box-shadow: var(--shadow);
+}
+
+.video-embed iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
 .gallery button {
   display: block;
   overflow: hidden;
