@@ -1264,17 +1264,24 @@ main > .section,
 }
 
 .home-page main > section {
-  filter: blur(2.4px);
+  contain: paint;
   opacity: 0.42;
   transform: scale(0.985);
   transform-origin: center;
-  transition: filter 260ms ease, opacity 260ms ease, transform 260ms ease;
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+
+.home-page main > section img {
+  filter: blur(2.4px);
 }
 
 .home-page main > section.is-active {
-  filter: none;
   opacity: 1;
   transform: none;
+}
+
+.home-page main > section.is-active img {
+  filter: none;
 }
 
 .site-footer p {
@@ -1368,7 +1375,6 @@ main > .section,
 
   .home-page main > section {
     scroll-margin-block: 0;
-    filter: none;
     opacity: 0.7;
     transform: none;
   }
@@ -1442,10 +1448,13 @@ main > .section,
   }
 
   .home-page main > section {
-    filter: none;
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .home-page main > section img {
+    filter: none;
   }
 
   .lightbox.is-open button {

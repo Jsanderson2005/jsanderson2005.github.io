@@ -313,6 +313,12 @@ const updateSectionFocus = () => {
   });
 };
 
+const setActiveSection = (activeSection) => {
+  focusSections.forEach((section) => {
+    section.classList.toggle("is-active", section === activeSection);
+  });
+};
+
 const updateScrollRails = () => {
   scrollRails.forEach((rail) => {
     const track = rail.querySelector("[data-scroll-track]");
@@ -324,11 +330,29 @@ const updateScrollRails = () => {
 };
 
 updateHeader();
-updateSectionFocus();
+if (focusSections.length) {
+  setActiveSection(focusSections[0]);
+}
 updateScrollRails();
 window.addEventListener("scroll", updateHeader, { passive: true });
-window.addEventListener("scroll", updateSectionFocus, { passive: true });
-window.addEventListener("resize", updateSectionFocus);
+if ("IntersectionObserver" in window && focusSections.length) {
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      const activeEntry = entries.find((entry) => entry.isIntersecting);
+      if (activeEntry) setActiveSection(activeEntry.target);
+    },
+    {
+      rootMargin: "-42% 0px -42% 0px",
+      threshold: 0,
+    },
+  );
+
+  focusSections.forEach((section) => sectionObserver.observe(section));
+} else {
+  updateSectionFocus();
+  window.addEventListener("scroll", updateSectionFocus, { passive: true });
+  window.addEventListener("resize", updateSectionFocus);
+}
 window.addEventListener("resize", updateScrollRails);
 
 scrollRails.forEach((rail) => {
