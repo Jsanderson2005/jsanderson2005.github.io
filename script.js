@@ -96,10 +96,19 @@ const setupLazyImageIndicators = () => {
       } catch {
         // A failed decode is handled like a failed load so the indicator cannot hang.
       }
-      container.classList.remove("is-media-loading");
-      container.classList.add("is-media-loaded");
       container.removeAttribute("aria-busy");
       observer?.unobserve(image);
+
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        container.classList.remove("is-media-loading");
+        container.classList.add("is-media-loaded");
+        return;
+      }
+
+      container.classList.remove("is-media-loading");
+      container.classList.add("is-media-revealing");
+      window.setTimeout(() => container.classList.add("is-media-loaded"), 230);
+      window.setTimeout(() => container.classList.remove("is-media-revealing"), 720);
     };
 
     container.classList.add("lazy-media");

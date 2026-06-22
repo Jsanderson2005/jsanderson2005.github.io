@@ -90,7 +90,7 @@ img {
   transform: translateX(-115%) skewX(-9deg);
 }
 
-.lazy-media.is-media-loaded .lazy-media__veil {
+.lazy-media.is-media-revealing .lazy-media__veil {
   animation: lazy-media-light-wipe 680ms cubic-bezier(0.76, 0, 0.24, 1) both;
 }
 
@@ -140,6 +140,7 @@ img {
   transition-delay: 70ms, 70ms;
 }
 
+.lazy-media.is-media-revealing .lazy-media__loader,
 .lazy-media.is-media-loaded .lazy-media__loader {
   opacity: 0;
   transform: translate(-50%, -50%) rotate(54deg) scale(0.16);
@@ -1702,7 +1703,7 @@ main > .section,
     animation: none;
   }
 
-  .lazy-media.is-media-loaded .lazy-media__veil {
+  .lazy-media.is-media-revealing .lazy-media__veil {
     animation: none;
   }
 
