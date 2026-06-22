@@ -9,6 +9,7 @@ const videoClose = document.querySelector("[data-video-close]");
 const videoOpenButtons = document.querySelectorAll("[data-video-open]");
 const documentLinks = document.querySelectorAll(".doc-link, [data-document-link]");
 const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image]"));
+const lazyImages = document.querySelectorAll('img[loading="lazy"]');
 const personalProjectsFeature = document.querySelectorAll('[data-feature="personal-projects"]');
 let activeGalleryIndex = 0;
 const showPersonalProjects = false;
@@ -58,9 +59,73 @@ const deactivateModal = (modal) => {
   modalReturnFocus = null;
 };
 
+const setupLazyImageIndicators = () => {
+  const indicatorContainers = ".production-card, .gallery button, .headshot-slot";
+  const observer = "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const container = entry.target.closest(indicatorContainers);
+            if (container) {
+              container.classList.add("is-media-loading");
+              container.setAttribute("aria-busy", "true");
+            }
+            observer.unobserve(entry.target);
+          });
+        },
+        { rootMargin: "180px" },
+      )
+    : null;
+
+  lazyImages.forEach((image) => {
+    const container = image.closest(indicatorContainers);
+    if (!container) return;
+
+    const veil = document.createElement("span");
+    const loader = document.createElement("span");
+    veil.className = "lazy-media__veil";
+    veil.setAttribute("aria-hidden", "true");
+    loader.className = "lazy-media__loader";
+    loader.setAttribute("aria-hidden", "true");
+    container.append(veil, loader);
+
+    const finishLoading = async () => {
+      try {
+        await image.decode();
+      } catch {
+        // A failed decode is handled like a failed load so the indicator cannot hang.
+      }
+      container.classList.remove("is-media-loading");
+      container.classList.add("is-media-loaded");
+      container.removeAttribute("aria-busy");
+      observer?.unobserve(image);
+    };
+
+    container.classList.add("lazy-media");
+
+    if (image.complete) {
+      void finishLoading();
+      return;
+    }
+
+    image.addEventListener("load", () => void finishLoading(), { once: true });
+    image.addEventListener("error", () => void finishLoading(), { once: true });
+
+    if (observer) {
+      observer.observe(image);
+    } else {
+      container.classList.add("is-media-loading");
+      container.setAttribute("aria-busy", "true");
+    }
+  });
+};
+
 personalProjectsFeature.forEach((element) => {
   element.hidden = !showPersonalProjects;
 });
+
+setupLazyImageIndicators();
 
 const focusSections = document.querySelectorAll(".home-page main > section:not([hidden])");
 const scrollRails = document.querySelectorAll("[data-scroll-rail]");
