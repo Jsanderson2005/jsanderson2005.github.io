@@ -10,6 +10,8 @@ const videoOpenButtons = document.querySelectorAll("[data-video-open]");
 const documentLinks = document.querySelectorAll(".doc-link, [data-document-link]");
 const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image]"));
 const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+const scrollComparisons = document.querySelectorAll("[data-scroll-comparison]");
+const comparisonScrollCues = document.querySelectorAll("[data-comparison-scroll-cue]");
 const personalProjectsFeature = document.querySelectorAll('[data-feature="personal-projects"]');
 let activeGalleryIndex = 0;
 const showPersonalProjects = false;
@@ -130,11 +132,340 @@ const setupLazyImageIndicators = () => {
   });
 };
 
+const setupScrollComparisons = () => {
+  if (!scrollComparisons.length) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const comparisonMetrics = new WeakMap();
+  const comparisonProgressCache = new WeakMap();
+  let isTicking = false;
+  let comparisonViewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  let hasHiddenHeaderForComparison = false;
+
+  const clampProgress = (value) => Math.min(1, Math.max(0, value));
+  const clampOffset = (value, min, max) => Math.min(max, Math.max(min, value));
+  const getComparisonNumber = (element, key, fallback) => {
+    const value = Number.parseFloat(element.dataset[key]);
+    return Number.isFinite(value) ? value : fallback;
+  };
+
+  const easeComparisonProgress = (value) => {
+    return value < 0.5 ? 2 * value * value : 1 - Math.pow(-2 * value + 2, 2) / 2;
+  };
+
+  const alignComparisonImages = (section) => {
+    const stage = section.querySelector(".comparison-hook__stage");
+    if (!(stage instanceof HTMLElement)) return;
+
+    const stageWidth = stage.clientWidth;
+    const stageHeight = stage.clientHeight;
+    if (!stageWidth || !stageHeight) return;
+
+    const targetX = stageWidth * (getComparisonNumber(section, "comparisonTargetX", 50) / 100);
+    const targetY = stageHeight * (getComparisonNumber(section, "comparisonTargetY", 0) / 100);
+
+    section.querySelectorAll(".comparison-hook__image").forEach((image) => {
+      if (!(image instanceof HTMLImageElement) || !image.naturalWidth || !image.naturalHeight) return;
+
+      const scale = Math.max(stageWidth / image.naturalWidth, stageHeight / image.naturalHeight);
+      const renderedWidth = image.naturalWidth * scale;
+      const renderedHeight = image.naturalHeight * scale;
+      const sourceWidth = getComparisonNumber(image, "comparisonSourceWidth", image.naturalWidth) || image.naturalWidth;
+      const sourceHeight = getComparisonNumber(image, "comparisonSourceHeight", image.naturalHeight) || image.naturalHeight;
+      const anchorSourceX = getComparisonNumber(image, "comparisonAnchorX", sourceWidth / 2);
+      const anchorSourceY = getComparisonNumber(image, "comparisonAnchorY", 0);
+      const anchorX = image.naturalWidth * (anchorSourceX / sourceWidth);
+      const anchorY = image.naturalHeight * (anchorSourceY / sourceHeight);
+      const offsetX = clampOffset(targetX - anchorX * scale, stageWidth - renderedWidth, 0);
+      const offsetY = clampOffset(targetY - anchorY * scale, stageHeight - renderedHeight, 0);
+
+      image.style.setProperty("--comparison-image-width", `${renderedWidth.toFixed(2)}px`);
+      image.style.setProperty("--comparison-image-height", `${renderedHeight.toFixed(2)}px`);
+      image.style.setProperty("--comparison-image-x", `${offsetX.toFixed(2)}px`);
+      image.style.setProperty("--comparison-image-y", `${offsetY.toFixed(2)}px`);
+      image.classList.add("is-comparison-image-aligned");
+    });
+  };
+
+  const measureComparisons = () => {
+    comparisonViewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    scrollComparisons.forEach((section) => {
+      alignComparisonImages(section);
+      comparisonMetrics.set(section, {
+        scrollableDistance: Math.max(1, section.offsetHeight - comparisonViewportHeight),
+      });
+    });
+  };
+
+  const setComparisonProgress = (section, rawProgress) => {
+    const progress = clampProgress(rawProgress);
+    const easedProgress = easeComparisonProgress(progress);
+    const anyComparisonActive = rawProgress > 0.02 && rawProgress < 1.08;
+    const progressKey = Math.round(easedProgress * 1000);
+    const isModelComparison = section.hasAttribute("data-three-model-comparison");
+
+    if (comparisonProgressCache.get(section) === progressKey) return anyComparisonActive;
+    comparisonProgressCache.set(section, progressKey);
+
+    const reveal = easedProgress * 100;
+    const maskSolid = Math.min(100, Math.max(0, reveal - 14));
+    const maskEnd = Math.min(100, Math.max(0, reveal + 10));
+    const maskStartFromLeft = 100 - maskEnd;
+    const maskRevealFromLeft = 100 - reveal;
+    const maskSolidFromLeft = 100 - maskSolid;
+    const edge = Math.min(98, Math.max(2, maskRevealFromLeft));
+    const blendStrength = Math.sin(easedProgress * Math.PI);
+    const renderCopyFade = Math.min(1, progress * 1.45);
+    const photoCopyFade = clampProgress((progress - 0.32) / 0.28);
+    const modelPhotoFade = clampProgress((progress - 0.56) / 0.32);
+    const modelBackgroundFade = clampProgress((progress - 0.5) / 0.3);
+    const modelPhotoCopyFade = clampProgress((progress - 0.68) / 0.22);
+
+    section.style.setProperty("--comparison-progress", easedProgress.toFixed(4));
+    section.style.setProperty("--comparison-render-copy-opacity", (1 - renderCopyFade).toFixed(3));
+    section.style.setProperty("--comparison-render-copy-offset", `${(-18 * renderCopyFade).toFixed(2)}px`);
+    section.style.setProperty("--comparison-cue-opacity", (1 - Math.min(1, progress * 2.2)).toFixed(3));
+
+    if (isModelComparison) {
+      const modelRenderCopyFade = clampProgress(progress / 0.34);
+      const modelPlanningCopyIn = easeComparisonProgress(clampProgress((progress - 0.38) / 0.16));
+      const modelPlanningCopyOut = easeComparisonProgress(clampProgress((progress - 0.7) / 0.14));
+      section.style.setProperty("--comparison-reveal", "100%");
+      section.style.setProperty("--comparison-edge", "50%");
+      section.style.setProperty("--comparison-mask-start", "0%");
+      section.style.setProperty("--comparison-mask-reveal", "0%");
+      section.style.setProperty("--comparison-mask-solid", "100%");
+      section.style.setProperty("--comparison-blend-opacity", "0");
+      section.style.setProperty("--comparison-render-opacity", "1");
+      section.style.setProperty("--comparison-render-copy-opacity", (1 - easeComparisonProgress(modelRenderCopyFade)).toFixed(3));
+      section.style.setProperty("--comparison-render-copy-offset", `${(-18 * modelRenderCopyFade).toFixed(2)}px`);
+      section.style.setProperty("--comparison-planning-copy-opacity", (modelPlanningCopyIn * (1 - modelPlanningCopyOut)).toFixed(3));
+      section.style.setProperty("--comparison-planning-copy-offset", `${(22 - 22 * modelPlanningCopyIn - 16 * modelPlanningCopyOut).toFixed(2)}px`);
+      section.style.setProperty("--comparison-photo-opacity", easeComparisonProgress(modelPhotoFade).toFixed(3));
+      section.style.setProperty("--comparison-photo-copy-opacity", easeComparisonProgress(modelPhotoCopyFade).toFixed(3));
+      section.style.setProperty("--comparison-photo-copy-offset", `${(22 - 22 * modelPhotoCopyFade).toFixed(2)}px`);
+      section.style.setProperty("--model-background-opacity", (1 - easeComparisonProgress(modelBackgroundFade)).toFixed(3));
+      section.style.setProperty("--model-layer-opacity", "1");
+    } else {
+      section.style.setProperty("--comparison-reveal", `${reveal.toFixed(2)}%`);
+      section.style.setProperty("--comparison-edge", `${edge.toFixed(2)}%`);
+      section.style.setProperty("--comparison-mask-start", `${maskStartFromLeft.toFixed(2)}%`);
+      section.style.setProperty("--comparison-mask-reveal", `${maskRevealFromLeft.toFixed(2)}%`);
+      section.style.setProperty("--comparison-mask-solid", `${maskSolidFromLeft.toFixed(2)}%`);
+      section.style.setProperty("--comparison-blend-opacity", (blendStrength * 0.64).toFixed(3));
+      section.style.setProperty("--comparison-render-opacity", (1 - easedProgress * 0.2).toFixed(3));
+      section.style.setProperty("--comparison-photo-opacity", Math.min(1, easedProgress * 1.18).toFixed(3));
+      section.style.setProperty("--comparison-photo-copy-opacity", photoCopyFade.toFixed(3));
+      section.style.setProperty("--comparison-photo-copy-offset", `${(22 - 22 * photoCopyFade).toFixed(2)}px`);
+    }
+
+    section.classList.toggle("is-comparing", progress > 0.03 && progress < 0.97);
+    section.classList.toggle("is-revealed", progress > 0.9);
+    return anyComparisonActive;
+  };
+
+  const updateComparisons = () => {
+    let hasActiveComparison = false;
+
+    scrollComparisons.forEach((section) => {
+      const metrics = comparisonMetrics.get(section);
+      const rect = section.getBoundingClientRect();
+      const scrollableDistance = metrics?.scrollableDistance || Math.max(1, rect.height - comparisonViewportHeight);
+      const progress = -rect.top / scrollableDistance;
+      hasActiveComparison = setComparisonProgress(section, progress) || hasActiveComparison;
+    });
+
+    if (hasActiveComparison !== hasHiddenHeaderForComparison) {
+      document.body.classList.toggle("has-scroll-comparison-active", hasActiveComparison);
+      hasHiddenHeaderForComparison = hasActiveComparison;
+    }
+    isTicking = false;
+  };
+
+  const requestComparisonUpdate = () => {
+    if (isTicking) return;
+    isTicking = true;
+    window.requestAnimationFrame(updateComparisons);
+  };
+
+  scrollComparisons.forEach((section) => {
+    section.querySelectorAll(".comparison-hook__image").forEach((image) => {
+      if (!(image instanceof HTMLImageElement) || image.complete) return;
+      image.addEventListener("load", () => alignComparisonImages(section), { once: true });
+    });
+  });
+
+  measureComparisons();
+
+  if (reducedMotion.matches) {
+    scrollComparisons.forEach((section) => {
+      section.classList.add("is-revealed");
+    });
+    return;
+  }
+
+  updateComparisons();
+  window.addEventListener("scroll", requestComparisonUpdate, { passive: true });
+  window.addEventListener("resize", () => {
+    measureComparisons();
+    requestComparisonUpdate();
+  });
+  window.addEventListener("orientationchange", () => {
+    measureComparisons();
+    requestComparisonUpdate();
+  });
+  window.addEventListener("modelcomparisonready", () => {
+    measureComparisons();
+    requestComparisonUpdate();
+  });
+  window.addEventListener("modelcomparisonfallback", () => {
+    measureComparisons();
+    requestComparisonUpdate();
+  });
+
+  comparisonScrollCues.forEach((cue) => {
+    cue.addEventListener("click", (event) => {
+      const section = cue.closest("[data-scroll-comparison]");
+      if (!(section instanceof HTMLElement)) return;
+      event.preventDefault();
+      const targetScroll = window.scrollY + section.getBoundingClientRect().top + window.innerHeight * 0.58;
+      const behavior = reducedMotion.matches ? "auto" : "smooth";
+      try {
+        window.scrollTo({ top: targetScroll, behavior });
+      } catch {
+        window.scrollTo(0, targetScroll);
+      }
+    });
+  });
+};
+
+const setupDocumentProcesses = () => {
+  document.querySelectorAll("[data-doc-process]").forEach((process) => {
+    const cards = Array.from(process.querySelectorAll(".doc-card"));
+    const panelTimers = new WeakMap();
+
+    const clearPanelTimer = (panel) => {
+      const timer = panelTimers.get(panel);
+      if (!timer) return;
+      window.clearTimeout(timer);
+      panelTimers.delete(panel);
+    };
+
+    const setPanelHeight = (panel, value) => {
+      panel.style.setProperty("--doc-details-height", value);
+    };
+
+    const openPanel = (card, panel, shouldAnimate) => {
+      clearPanelTimer(panel);
+      panel.hidden = false;
+
+      if (!shouldAnimate) {
+        panel.classList.remove("is-collapsing");
+        panel.style.removeProperty("--doc-details-height");
+        return;
+      }
+
+      panel.classList.add("is-collapsing");
+      setPanelHeight(panel, "0px");
+      panel.getBoundingClientRect();
+
+      window.requestAnimationFrame(() => {
+        if (!card.classList.contains("is-active")) return;
+        panel.classList.remove("is-collapsing");
+        window.requestAnimationFrame(() => {
+          if (!card.classList.contains("is-active")) return;
+          setPanelHeight(panel, `${panel.scrollHeight}px`);
+        });
+      });
+
+      const timer = window.setTimeout(() => {
+        if (card.classList.contains("is-active")) {
+          panel.style.removeProperty("--doc-details-height");
+        }
+        panelTimers.delete(panel);
+      }, 390);
+
+      panelTimers.set(panel, timer);
+    };
+
+    const closePanel = (card, panel, shouldAnimate) => {
+      clearPanelTimer(panel);
+
+      if (panel.hidden) return;
+
+      if (!shouldAnimate) {
+        panel.hidden = true;
+        panel.classList.remove("is-collapsing");
+        panel.style.removeProperty("--doc-details-height");
+        return;
+      }
+
+      setPanelHeight(panel, `${panel.scrollHeight}px`);
+      panel.getBoundingClientRect();
+      panel.classList.add("is-collapsing");
+      setPanelHeight(panel, "0px");
+
+      const timer = window.setTimeout(() => {
+        if (!card.classList.contains("is-active")) {
+          panel.hidden = true;
+          panel.classList.remove("is-collapsing");
+          panel.style.removeProperty("--doc-details-height");
+        }
+        panelTimers.delete(panel);
+      }, 320);
+
+      panelTimers.set(panel, timer);
+    };
+
+    const activateStep = (activeIndex, shouldScroll = false, shouldAnimate = true) => {
+      cards.forEach((card, index) => {
+        const trigger = card.querySelector("[data-doc-step-trigger]");
+        const panel = card.querySelector("[data-doc-step-panel]");
+        const isActive = index === activeIndex;
+
+        card.classList.toggle("is-active", isActive);
+
+        if (trigger instanceof HTMLButtonElement) {
+          trigger.setAttribute("aria-expanded", String(isActive));
+        }
+
+        if (panel instanceof HTMLElement) {
+          if (isActive) {
+            openPanel(card, panel, shouldAnimate);
+          } else {
+            closePanel(card, panel, shouldAnimate);
+          }
+        }
+      });
+
+      if (activeIndex < 0 || !shouldScroll || !window.matchMedia("(max-width: 780px)").matches) return;
+      window.setTimeout(() => {
+        cards[activeIndex]?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }, 0);
+    };
+
+    cards.forEach((card, index) => {
+      const trigger = card.querySelector("[data-doc-step-trigger]");
+
+      if (trigger instanceof HTMLButtonElement) {
+        trigger.addEventListener("click", () => {
+          activateStep(card.classList.contains("is-active") ? -1 : index, true);
+        });
+      }
+    });
+
+    const initialIndex = cards.findIndex((card) => card.classList.contains("is-active"));
+    activateStep(initialIndex, false, false);
+  });
+};
+
 personalProjectsFeature.forEach((element) => {
   element.hidden = !showPersonalProjects;
 });
 
 setupLazyImageIndicators();
+setupScrollComparisons();
+setupDocumentProcesses();
 
 const focusSections = document.querySelectorAll(".home-page main > section:not([hidden])");
 const scrollRails = document.querySelectorAll("[data-scroll-rail]");

@@ -32,13 +32,56 @@
     </header>
 
     <main>
-      <section class="show-hero">
+      <section class="comparison-hook" id="render-comparison" data-scroll-comparison data-comparison-target-x="50" data-comparison-target-y="0" aria-labelledby="render-comparison-title">
+        <div class="comparison-hook__stage">
+          <img
+            class="comparison-hook__image comparison-hook__image--render"
+            src="../assets/photos/productions/fika-n-flash/fika-render-comparison-render.jpg"
+            srcset="../assets/photos/productions/fika-n-flash/fika-render-comparison-render-640.jpg 640w, ../assets/photos/productions/fika-n-flash/fika-render-comparison-render-1200.jpg 1200w, ../assets/photos/productions/fika-n-flash/fika-render-comparison-render.jpg 1600w"
+            sizes="100vw"
+            alt="Vectorworks render of the Fika 'n' Flash lighting rig"
+            data-comparison-source-width="1600"
+            data-comparison-source-height="900"
+            data-comparison-anchor-x="800"
+            data-comparison-anchor-y="0"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <div class="comparison-hook__reveal" aria-hidden="true">
+            <img
+              class="comparison-hook__image comparison-hook__image--photo"
+              src="../assets/photos/productions/fika-n-flash/fika-render-comparison-photo.jpg"
+              srcset="../assets/photos/productions/fika-n-flash/fika-render-comparison-photo-640.jpg 640w, ../assets/photos/productions/fika-n-flash/fika-render-comparison-photo-1200.jpg 1200w, ../assets/photos/productions/fika-n-flash/fika-render-comparison-photo.jpg 1600w"
+              sizes="100vw"
+              alt=""
+              data-comparison-source-width="1600"
+              data-comparison-source-height="900"
+              data-comparison-anchor-x="800"
+              data-comparison-anchor-y="0"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
+          <span class="comparison-hook__blur" aria-hidden="true"></span>
+          <div class="comparison-hook__copy comparison-hook__copy--render">
+            <h1 id="render-comparison-title">From Vectorworks</h1>
+          </div>
+          <div class="comparison-hook__copy comparison-hook__copy--photo">
+            <h2>To Stage</h2>
+          </div>
+          <a class="comparison-hook__scroll-cue" href="#project-overview" data-comparison-scroll-cue aria-label="Scroll through the Fika 'n' Flash comparison">
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="show-hero show-hero--supporting" id="project-overview">
         <div class="show-hero__image">
-          <img decoding="async" fetchpriority="high" src="../assets/photos/productions/fika-n-flash/fika-hero.jpg" srcset="../assets/photos/productions/fika-n-flash/fika-hero-640.jpg 640w, ../assets/photos/productions/fika-n-flash/fika-hero-1200.jpg 1200w, ../assets/photos/productions/fika-n-flash/fika-hero.jpg 1800w" sizes="100vw" alt="Fika 'n' Flash stage lighting and live performance" />
+          <img loading="lazy" decoding="async" src="../assets/photos/productions/fika-n-flash/fika-hero.jpg" srcset="../assets/photos/productions/fika-n-flash/fika-hero-640.jpg 640w, ../assets/photos/productions/fika-n-flash/fika-hero-1200.jpg 1200w, ../assets/photos/productions/fika-n-flash/fika-hero.jpg 1800w" sizes="100vw" alt="Fika 'n' Flash stage lighting and live performance" />
         </div>
         <div class="show-hero__copy">
           <p class="eyebrow">Production Designer/Programmer</p>
-          <h1>Fika 'n' Flash</h1>
+          <h2>Fika 'n' Flash</h2>
           <p>Photos by Mathew Nicholson (@matnix03) and Finn Irving (@finnirving)</p>
           <button
             class="button featured-video-button"
@@ -50,11 +93,6 @@
             <span>Watch video</span>
             <span class="featured-video-button__arrow" aria-hidden="true"></span>
           </button>
-          <div class="show-links">
-            <a class="back-link" href="../index.html#work">Back to productions</a>
-            <a class="back-link" href="#gallery">Gallery</a>
-            <a class="back-link" href="#documentation">Documentation</a>
-          </div>
         </div>
       </section>
 
@@ -69,7 +107,73 @@
       </section>
 
       <section class="show-main">
-        <aside class="detail-stack" aria-label="Production details">
+        <div class="detail-stack show-main__content">
+          <section class="detail-panel" id="documentation" aria-labelledby="documentation-title">
+            <span class="label">Documentation</span>
+            <h2 id="documentation-title">Production Planning</h2>
+            <ol class="docs-grid doc-process" data-doc-process>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="fika-doc-original">Original Documents</button>
+                <div class="doc-card__details" id="fika-doc-original" data-doc-step-panel hidden>
+                  <p class="doc-card__description">I originally produced this information pack. It easily showed everyone the base information needed from the engineered plan. I was then able to share fixture sheets which showed more detailed information to the people that needed it.</p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/fika-n-flash/grad-files.pdf">Open document</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="fika-doc-first">First Hoist Design</button>
+                <div class="doc-card__details" id="fika-doc-first" data-doc-step-panel hidden>
+                  <p class="doc-card__description">Originally, this project was planned with portable hoists. I drew this point plan with two different ways recommended by the NRC handbook to get the location of the hanging points.</p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/fika-n-flash/fika-n-flash-old-point-data.pdf">Open document</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="fika-doc-second">Second Hoist Design</button>
+                <div class="doc-card__details" id="fika-doc-second" data-doc-step-panel hidden>
+                  <p class="doc-card__description">In the end, we used the in-house hoists for this show. Due to having an accurate plan for the grid and the dimensions of the A-Frames in the grid, the in-house riggers found it easier to work with a graphical plan, with measurements from the proscenium.</p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/fika-n-flash/fika-n-flash-new-point-data.pdf">Open document</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card doc-card--contact">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="fika-doc-context">What the files do not show</button>
+                <div class="doc-card__details" id="fika-doc-context" data-doc-step-panel hidden>
+                  <p class="doc-card__description">This is only a snippet of this project. To hear more about this, give me a bell.</p>
+                  <div class="doc-card__actions doc-card__actions--contact">
+                    <a class="doc-card__open" href="mailto:joshua@jsanderson.net">Email</a>
+                    <a class="doc-card__open" href="https://www.linkedin.com/in/joshua-sanderson-0bb244241/" target="_blank" rel="noreferrer">LinkedIn</a>
+                    <a class="doc-card__open" href="https://www.instagram.com/joshuasandersontech" target="_blank" rel="noreferrer">Instagram</a>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </section>
+
+          <section class="detail-panel" id="gallery" aria-labelledby="gallery-title">
+            <span class="label">Photos</span>
+            <h2 id="gallery-title">Show gallery</h2>
+            <div class="gallery">
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/fika-n-flash/fika-hero.jpg">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/fika-n-flash/fika-hero.jpg" srcset="../assets/photos/productions/fika-n-flash/fika-hero-640.jpg 640w, ../assets/photos/productions/fika-n-flash/fika-hero-1200.jpg 1200w, ../assets/photos/productions/fika-n-flash/fika-hero.jpg 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="Fika 'n' Flash wide stage lighting state" />
+              </button>
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/fika-n-flash/fika-1.png">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/fika-n-flash/fika-1.png" srcset="../assets/photos/productions/fika-n-flash/fika-1-640.png 640w, ../assets/photos/productions/fika-n-flash/fika-1.png 1200w" sizes="(max-width: 780px) 100vw, 30vw" alt="Fika 'n' Flash rendered lighting look" />
+              </button>
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/fika-n-flash/fika-2.jpg">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/fika-n-flash/fika-2.jpg" srcset="../assets/photos/productions/fika-n-flash/fika-2-640.jpg 640w, ../assets/photos/productions/fika-n-flash/fika-2-1200.jpg 1200w, ../assets/photos/productions/fika-n-flash/fika-2.jpg 1400w" sizes="(max-width: 780px) 100vw, 30vw" alt="Fika 'n' Flash performance photo" />
+              </button>
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/fika-n-flash/fika-3.jpg">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/fika-n-flash/fika-3.jpg" srcset="../assets/photos/productions/fika-n-flash/fika-3-640.jpg 640w, ../assets/photos/productions/fika-n-flash/fika-3-1200.jpg 1200w, ../assets/photos/productions/fika-n-flash/fika-3.jpg 1400w" sizes="(max-width: 780px) 100vw, 30vw" alt="Fika 'n' Flash group photo" />
+              </button>
+            </div>
+          </section>
+        </div>
+
+        <aside class="detail-stack show-main__credits" aria-label="Production details">
           <div class="detail-panel">
             <span class="label">Credits</span>
             <dl class="credit-group">
@@ -120,38 +224,10 @@
             </dl>
           </div>
         </aside>
+      </section>
 
-        <div class="detail-stack">
-          <section class="detail-panel" id="gallery" aria-labelledby="gallery-title">
-            <span class="label">Photos</span>
-            <h2 id="gallery-title">Show gallery</h2>
-            <div class="gallery">
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/fika-n-flash/fika-hero.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/fika-n-flash/fika-hero.jpg" srcset="../assets/photos/productions/fika-n-flash/fika-hero-640.jpg 640w, ../assets/photos/productions/fika-n-flash/fika-hero-1200.jpg 1200w, ../assets/photos/productions/fika-n-flash/fika-hero.jpg 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="Fika 'n' Flash wide stage lighting state" />
-              </button>
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/fika-n-flash/fika-1.png">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/fika-n-flash/fika-1.png" srcset="../assets/photos/productions/fika-n-flash/fika-1-640.png 640w, ../assets/photos/productions/fika-n-flash/fika-1.png 1200w" sizes="(max-width: 780px) 100vw, 30vw" alt="Fika 'n' Flash rendered lighting look" />
-              </button>
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/fika-n-flash/fika-2.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/fika-n-flash/fika-2.jpg" srcset="../assets/photos/productions/fika-n-flash/fika-2-640.jpg 640w, ../assets/photos/productions/fika-n-flash/fika-2-1200.jpg 1200w, ../assets/photos/productions/fika-n-flash/fika-2.jpg 1400w" sizes="(max-width: 780px) 100vw, 30vw" alt="Fika 'n' Flash performance photo" />
-              </button>
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/fika-n-flash/fika-3.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/fika-n-flash/fika-3.jpg" srcset="../assets/photos/productions/fika-n-flash/fika-3-640.jpg 640w, ../assets/photos/productions/fika-n-flash/fika-3-1200.jpg 1200w, ../assets/photos/productions/fika-n-flash/fika-3.jpg 1400w" sizes="(max-width: 780px) 100vw, 30vw" alt="Fika 'n' Flash group photo" />
-              </button>
-            </div>
-          </section>
-
-          <section class="detail-panel" id="documentation" aria-labelledby="documentation-title">
-            <span class="label">Documentation</span>
-            <h2 id="documentation-title">Production files</h2>
-            <div class="docs-grid">
-              <a class="doc-link" href="../assets/docs/productions/fika-n-flash/fika-n-flash-new-point-data.pdf">Fika 'n' Flash - New Point Data</a>
-              <a class="doc-link" href="../assets/docs/productions/fika-n-flash/fika-n-flash-old-point-data.pdf">Fika 'n' Flash - Old Point Data</a>
-              <a class="doc-link" href="../assets/docs/productions/fika-n-flash/grad-files.pdf">Grad Files</a>
-              <a class="doc-link" href="../assets/docs/productions/fika-n-flash/render-comparison.pdf">Render Comparison</a>
-            </div>
-          </section>
-        </div>
+      <section class="production-back" aria-label="Back to productions">
+        <a class="back-link" href="../index.html#work">Back to productions</a>
       </section>
     </main>
 
@@ -174,7 +250,6 @@
 
     <footer class="site-footer">
       <p>&copy; <span data-year></span> Joshua Sanderson</p>
-      <a href="../index.html#work">All productions</a>
     </footer>
     <script src="../script.js"></script>
   </body>

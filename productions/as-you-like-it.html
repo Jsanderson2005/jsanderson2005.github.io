@@ -16,6 +16,9 @@
     <meta name="twitter:description" content="As You Like It production electrician work, show photos, and credits." />
     <meta name="twitter:image" content="https://jsanderson.net/assets/photos/productions/as-you-like-it/as-you-like-it-hero.jpg" />
     <link rel="icon" href="../assets/photos/js-powder-logo-512.png" type="image/png" />
+    <link rel="modulepreload" href="../model-comparison.js" />
+    <link rel="modulepreload" href="../assets/vendor/three.module.min.js" />
+    <link rel="preload" href="../assets/photos/productions/as-you-like-it/as-you-like-it-connectcad-breakaway-model.json" as="fetch" type="application/json" crossorigin="anonymous" />
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body>
@@ -32,18 +35,56 @@
     </header>
 
     <main>
-      <section class="show-hero">
+      <section class="comparison-hook model-comparison-hook" id="connectcad-comparison" data-scroll-comparison data-three-model-comparison aria-labelledby="connectcad-comparison-title">
+        <div class="comparison-hook__stage">
+          <div
+            class="model-comparison-hook__canvas"
+            data-three-model-stage
+            data-model-json-src="../assets/photos/productions/as-you-like-it/as-you-like-it-connectcad-breakaway-model.json"
+            aria-hidden="true"
+          ></div>
+          <div class="comparison-hook__reveal" aria-hidden="true">
+            <img
+              class="comparison-hook__image comparison-hook__image--photo"
+              src="../assets/photos/productions/as-you-like-it/as-you-like-it-hero.jpg"
+              srcset="../assets/photos/productions/as-you-like-it/as-you-like-it-hero-640.jpg 640w, ../assets/photos/productions/as-you-like-it/as-you-like-it-hero-1200.jpg 1200w, ../assets/photos/productions/as-you-like-it/as-you-like-it-hero.jpg 1800w"
+              sizes="100vw"
+              alt=""
+              data-comparison-source-width="1800"
+              data-comparison-source-height="1200"
+              data-comparison-anchor-x="900"
+              data-comparison-anchor-y="0"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
+          <div class="comparison-hook__copy comparison-hook__copy--render">
+            <h1 id="connectcad-comparison-title">Using Spotlight</h1>
+          </div>
+          <div class="comparison-hook__copy comparison-hook__copy--planning">
+            <h2>And Power Planning</h2>
+          </div>
+          <div class="comparison-hook__copy comparison-hook__copy--photo">
+            <h2>To dim 100 light bulbs</h2>
+          </div>
+          <a class="comparison-hook__scroll-cue" href="#project-overview" data-comparison-scroll-cue aria-label="Scroll through the As You Like It comparison">
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="show-hero show-hero--supporting" id="project-overview">
         <div class="show-hero__image">
-          <img decoding="async" fetchpriority="high" src="../assets/photos/productions/as-you-like-it/as-you-like-it-hero.jpg" srcset="../assets/photos/productions/as-you-like-it/as-you-like-it-hero-640.jpg 640w, ../assets/photos/productions/as-you-like-it/as-you-like-it-hero-1200.jpg 1200w, ../assets/photos/productions/as-you-like-it/as-you-like-it-hero.jpg 1800w" sizes="100vw" alt="As You Like It production photo" />
+          <img loading="lazy" decoding="async" src="../assets/photos/productions/as-you-like-it/as-you-like-it-hero.jpg" srcset="../assets/photos/productions/as-you-like-it/as-you-like-it-hero-640.jpg 640w, ../assets/photos/productions/as-you-like-it/as-you-like-it-hero-1200.jpg 1200w, ../assets/photos/productions/as-you-like-it/as-you-like-it-hero.jpg 1800w" sizes="100vw" alt="As You Like It production photo" />
         </div>
         <div class="show-hero__copy">
           <p class="eyebrow">Production Electrician</p>
-          <h1>As You Like It</h1>
+          <h2>As You Like It</h2>
           <p>Photos by David Monteith-Hodge (@photographise)</p>
           <div class="show-links">
             <a class="back-link" href="../index.html#work">Back to productions</a>
             <a class="back-link" href="#gallery">Gallery</a>
-            <a class="back-link" href="#documentation">Documentation</a>
           </div>
         </div>
       </section>
@@ -86,11 +127,6 @@
             </div>
           </section>
 
-          <section class="detail-panel" id="documentation" aria-labelledby="documentation-title">
-            <span class="label">Documentation</span>
-            <h2 id="documentation-title">Production files</h2>
-            <p class="empty-note">No documentation files supplied in this folder yet.</p>
-          </section>
         </div>
       </section>
     </main>
@@ -105,5 +141,6 @@
       <a href="../index.html#work">All productions</a>
     </footer>
     <script src="../script.js"></script>
+    <script type="module" src="../model-comparison.js"></script>
   </body>
 </html>
