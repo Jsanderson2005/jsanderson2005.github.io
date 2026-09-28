@@ -198,6 +198,52 @@
       color: #b7b6bf;
     }
 
+
+
+    /* Work placements use a deliberately different hierarchy from paid credits. */
+    .placements {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3mm;
+    }
+
+    .placement {
+      position: relative;
+      padding: 2.5mm 3mm 2.6mm;
+      border-left: .7mm solid var(--amber);
+      background: rgba(255, 255, 255, .035);
+    }
+
+    .placement-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 3mm;
+      margin-bottom: .8mm;
+    }
+
+    .placement-company {
+      color: #f5f3ef;
+      font-size: 7.8pt;
+      font-weight: 700;
+      letter-spacing: .01em;
+    }
+
+    .placement-date {
+      flex: 0 0 auto;
+      color: #8e95ff;
+      font-size: 6.45pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .placement-detail {
+      color: #b7b6bf;
+      font-size: 7.05pt;
+      line-height: 1.3;
+    }
+
     .credits {
       font-size: 7.4pt;
       line-height: 1.46;
@@ -288,8 +334,8 @@
         <div class="jobs">
           <div class="job">
             <div class="date">July 2026</div>
-            <div><span class="role">Lighting Designer</span><span class="sep"> / </span><span
-                class="place">CAPA | West Side Story @ Rose Theatre</span></div>
+            <div><span class="role">Lighting Designer</span><span class="sep"> / </span><span class="place">CAPA | West
+                Side Story @ Rose Theatre</span></div>
           </div>
           <div class="job">
             <div class="date">June 2026</div>
@@ -364,6 +410,30 @@
       <section>
         <div class="section-head">
           <div class="num">05</div>
+          <h2>Industry Placements
+          </h2>
+        </div>
+        <div class="placements">
+          <div class="placement">
+            <div class="placement-head">
+              <div class="placement-company">TAIT</div>
+              <div class="placement-date">Aug 2026</div>
+            </div>
+            <div class="placement-detail">In the Project Management Department · Production Park</div>
+          </div>
+          <div class="placement">
+            <div class="placement-head">
+              <div class="placement-company">Siyan</div>
+              <div class="placement-date">Aug 2026</div>
+            </div>
+            <div class="placement-detail">As a Lighting Technician · Siyan's Warehouse and on-site</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <div class="num">06</div>
           <h2>Education</h2>
         </div>
         <div class="education">
