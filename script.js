@@ -547,6 +547,7 @@ const documentModal = (() => {
       <div class="document-modal__bar">
         <h2 id="document-modal-title">Document viewer</h2>
         <div class="document-modal__actions">
+          <a class="document-modal__download doc-card__open" data-document-download href="#" download hidden>Download CV</a>
           <button class="document-modal__close" type="button" aria-label="Close document viewer"></button>
         </div>
       </div>
@@ -620,6 +621,36 @@ const closeDocumentModal = () => {
   deactivateModal(documentModal);
 };
 
+const downloadDocument = async (event) => {
+  event.preventDefault();
+
+  const downloadButton = event.currentTarget;
+
+  try {
+    const response = await fetch(downloadButton.href);
+    if (!response.ok) {
+      throw new Error(`Download failed: ${response.status}`);
+    }
+
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const temporaryLink = document.createElement("a");
+
+    temporaryLink.href = objectUrl;
+    temporaryLink.download = downloadButton.download || "Joshua-Sanderson-CV.pdf";
+    document.body.appendChild(temporaryLink);
+    temporaryLink.click();
+    temporaryLink.remove();
+
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  } catch (error) {
+    console.error("Unable to download CV:", error);
+  }
+};
+
+const modalDownloadButton = documentModal?.querySelector("[data-document-download]");
+modalDownloadButton?.addEventListener("click", downloadDocument);
+
 const openDocumentModal = (link) => {
   if (!documentModal) return;
   const body = documentModal.querySelector("[data-document-body]");
@@ -627,8 +658,18 @@ const openDocumentModal = (link) => {
   const href = link.href;
   const label = link.textContent.trim() || "Document";
   const isImage = /\.(png|jpe?g|gif|webp|svg)$/i.test(link.pathname);
+  const downloadButton = documentModal.querySelector("[data-document-download]");
+  const isCV = link.hasAttribute("data-cv-document");
 
-  if (title) title.textContent = label;
+  if (downloadButton) {
+    downloadButton.hidden = !isCV;
+    if (isCV) {
+      downloadButton.href = "assets/docs/cv.pdf";
+      downloadButton.download = "Joshua-Sanderson-CV.pdf";
+    }
+  }
+
+  if (title) title.textContent = isCV ? "Joshua Sanderson — CV" : label;
   if (body) {
     body.replaceChildren();
     const viewer = document.createElement(isImage ? "img" : "iframe");
