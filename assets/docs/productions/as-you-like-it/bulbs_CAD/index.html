@@ -54,6 +54,11 @@
 .loader__text{margin-top:10px}
 .intro__card{width:min(500px,calc(100vw - 40px));max-height:calc(100dvh - 40px);overflow:auto}
 .intro__note{margin-top:12px;font-size:11px;line-height:1.5;letter-spacing:.02em;color:var(--muted)}
+.intro__credits{margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.12)}
+.intro__credits-title{margin-bottom:8px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.intro__credit{font-size:12px;line-height:1.65}
+.intro__credit-role{color:var(--muted)}
+
 @media(max-width:700px){
  .loader__inner{width:calc(100vw - 40px)}
  .intro__card{width:calc(100vw - 28px);max-height:calc(100dvh - 28px);padding:22px 18px}
@@ -96,10 +101,19 @@
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script></head><body>
 <div id="loader" class="loader"><div class="loader__inner"><div class="loader__row"><div class="loader__title">Loading...</div><div id="loaderText" class="loader__text">0%</div></div><div class="loader__track"><div id="loaderBar" class="loader__bar"></div></div></div></div>
-<div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="Viewer instructions"><div class="intro__card"><div class="intro__text">Click on any Wire or Distributor Object to power up the lights provided from the object</div><div class="intro__note">For the best experience, view this on a desktop.</div><button id="introClose" class="intro__close">Close</button></div></div>
+<div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="Viewer instructions"><div class="intro__card"><div class="intro__text">Click on any Wire or Distributor Object to power up the lights provided from the object</div><div class="intro__note">For the best experience, view this on a desktop.</div><div id="introCredits" class="intro__credits" hidden></div><button id="introClose" class="intro__close">Close</button></div></div>
 <div id="tip" class="tip"></div><div id="cablePicker" class="cable-picker"></div>
 <script type="module">
 import * as THREE from 'three'; import {OrbitControls} from 'three/addons/controls/OrbitControls.js'; import {OBJLoader} from 'three/addons/loaders/OBJLoader.js'; import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
+const introCredits=document.getElementById('introCredits');
+function escCredit(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+fetch('./data/credits.json').then(r=>{if(!r.ok)throw new Error(`credits.json ${r.status}`);return r.json()}).then(data=>{
+ const credits=Array.isArray(data.credits)?data.credits:[];
+ if(!credits.length)return;
+ introCredits.innerHTML='<div class="intro__credits-title">Credits</div>'+credits.map(c=>`<div class="intro__credit"><span>${escCredit(c.name)}</span>${c.role?` <span class="intro__credit-role">— ${escCredit(c.role)}</span>`:''}</div>`).join('');
+ introCredits.hidden=false;
+}).catch(err=>console.warn('Credits unavailable:',err));
+
 const scene=new THREE.Scene(); scene.background=null; const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.01,2000); camera.position.set(14,10,14); const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,1.5)); renderer.setSize(innerWidth,innerHeight); renderer.outputColorSpace=THREE.SRGBColorSpace; document.body.appendChild(renderer.domElement); const controls=new OrbitControls(camera,renderer.domElement); controls.enableDamping=false;
 function render(){renderer.render(scene,camera)} controls.addEventListener('change',render);
 scene.add(new THREE.HemisphereLight(0xffffff,0x30343b,2.2)); const dl=new THREE.DirectionalLight(0xffffff,2.4);dl.position.set(8,15,10);scene.add(dl);
