@@ -1,0 +1,811 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vectorworks 3D Viewer</title>
+<style>
+:root{--bg:#1e3044;--panel:rgba(18,31,46,.66);--text:#f3f0e9;--muted:#b7c0ca;--line:rgba(255,255,255,.10);--accent:#ef8b4a;--blue:#5794e8}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(900px 650px at 18% 18%,rgba(239,139,74,.22),transparent 64%),radial-gradient(1000px 720px at 84% 72%,rgba(87,148,232,.22),transparent 66%),linear-gradient(135deg,#34445a 0%,#1e3044 48%,#35465c 100%);color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:14px}canvas{display:block}
+.tip{display:none;position:fixed;z-index:8;pointer-events:none;max-width:360px;margin:10px;background:rgba(18,31,46,.68);border:0;border-radius:0;padding:17px 19px;box-shadow:0 18px 50px rgba(5,12,20,.16);backdrop-filter:blur(16px) saturate(115%);-webkit-backdrop-filter:blur(16px) saturate(115%);font-size:12px;line-height:1.6}.tip .title{color:var(--text);font-size:15px;font-weight:400;margin-bottom:9px;padding:0;letter-spacing:-.01em}.tip b{font-weight:400;color:var(--muted)}.tip .connections{margin-top:9px;padding-top:0}.purple{color:inherit}
+.loader{position:fixed;inset:0;z-index:10001;display:flex;align-items:center;justify-content:center;background:radial-gradient(900px 650px at 18% 18%,rgba(239,139,74,.16),transparent 64%),radial-gradient(1000px 720px at 84% 72%,rgba(87,148,232,.18),transparent 66%),#1e3044;transition:opacity .45s ease,visibility .45s ease}.loader.done{opacity:0;visibility:hidden;pointer-events:none}.loader__inner{width:min(360px,calc(100vw - 64px));text-align:left}.loader__eyebrow{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}.loader__title{font-size:24px;font-weight:400;letter-spacing:-.025em;margin-bottom:24px}.loader__track{height:2px;background:rgba(255,255,255,.10);overflow:hidden}.loader__bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--blue));transition:width .3s ease}.loader__text{margin-top:12px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.status{left:18px;bottom:18px}}
+
+.intro{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:24px;background:rgba(18,31,46,.30);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .5s ease,visibility .5s ease,backdrop-filter .5s ease}
+.intro.show{opacity:1;visibility:visible;pointer-events:auto}
+
+.intro__card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(520px,calc(100vw - 48px));box-sizing:border-box;padding:30px 32px;background:rgba(18,31,46,.82);box-shadow:0 18px 60px rgba(5,12,20,.22);text-align:center}
+.intro__text{font-size:18px;line-height:1.5;letter-spacing:-.015em}
+.intro__close{margin-top:24px;padding:11px 24px;border:0;border-radius:0;background:rgba(255,255,255,.10);color:var(--text);font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;min-width:100px}
+.intro__close:hover{background:rgba(255,255,255,.17)}
+.loader__inner{text-align:center}.loader__title{margin:0;font-size:22px}.loader__text{margin-top:10px;font-size:12px;letter-spacing:.08em;text-transform:none;color:var(--text)}
+@media(max-width:700px){
+ .tip{max-width:calc(100vw - 24px);margin:6px;padding:13px 15px;font-size:11px;line-height:1.45}
+ .tip .title{font-size:14px;margin-bottom:6px}
+ .intro{padding:18px}
+ .intro__card{padding:24px 20px}
+ .intro__text{font-size:16px}
+ .intro__close{min-height:44px;min-width:120px}
+ .loader__inner{width:calc(100vw - 48px)}
+}
+@media(pointer:coarse){
+ .tip{display:none!important}
+ canvas{touch-action:none}
+}
+
+.cable-picker{display:none;position:fixed;z-index:30;width:min(340px,calc(100vw - 24px));max-height:min(55vh,420px);overflow:auto;background:rgba(18,31,46,.90);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 18px 55px rgba(5,12,20,.24);padding:8px}
+.cable-picker.show{display:block}
+.cable-picker__title{padding:8px 10px 6px;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.cable-picker button{display:block;width:100%;padding:11px 10px;border:0;border-radius:0;background:transparent;color:var(--text);text-align:left;font:inherit;font-size:12px;cursor:pointer}
+.cable-picker button:hover,.cable-picker button:focus{background:rgba(255,255,255,.09);outline:none}
+.cable-picker button span{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+@media(max-width:700px){.cable-picker{left:12px!important;right:12px!important;bottom:12px!important;top:auto!important;width:auto;max-height:45vh}.cable-picker button{min-height:48px}}
+
+.intro{position:fixed!important;inset:0!important;z-index:10000!important;display:block!important;opacity:0;visibility:hidden;pointer-events:none;transition:visibility 0s linear .5s}
+.intro::before{content:"";position:absolute;inset:0;background:rgba(18,31,46,.26);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;transition:opacity .5s ease}
+.intro__card{position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-46%) scale(.985)!important;width:min(520px,calc(100vw - 48px));box-sizing:border-box;padding:30px 32px;background:rgba(18,31,46,.86);box-shadow:0 18px 60px rgba(5,12,20,.26);text-align:center;opacity:0;transition:opacity .5s ease,transform .5s ease}
+.intro.show{visibility:visible;pointer-events:auto;transition-delay:0s}
+.intro.show::before{opacity:1}
+.intro.show .intro__card{opacity:1;transform:translate(-50%,-50%) scale(1)!important}
+.intro.closing{visibility:visible;pointer-events:none}
+.intro.closing::before{opacity:0}
+.intro.closing .intro__card{opacity:0;transform:translate(-50%,-54%) scale(.985)!important}
+
+/* Embedded viewer UI: compact, responsive and intentionally subordinate to the host site. */
+.loader,.intro{font-family:inherit}
+.loader__inner{width:min(340px,calc(100vw - 48px))}
+.loader__track{display:block;width:100%;height:2px;margin-top:18px;background:rgba(255,255,255,.12);overflow:hidden}
+.loader__bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--blue));transition:width .3s ease}
+.loader__text{margin-top:10px}
+.intro__card{width:min(500px,calc(100vw - 40px));max-height:calc(100dvh - 40px);overflow:auto}
+.intro__note{margin-top:12px;font-size:11px;line-height:1.5;letter-spacing:.02em;color:var(--muted)}
+@media(max-width:700px){
+ .loader__inner{width:calc(100vw - 40px)}
+ .intro__card{width:calc(100vw - 28px);max-height:calc(100dvh - 28px);padding:22px 18px}
+ .intro__note{font-size:10px}
+}
+
+.loader__row{display:flex;align-items:baseline;justify-content:space-between;gap:20px}
+.loader__row .loader__title{margin:0;text-align:left}
+.loader__row .loader__text{margin:0;text-align:right}
+.loader__track{margin-top:14px}
+.intro{place-items:center end;padding:clamp(18px,4vw,56px)}
+.intro__card{
+ left:auto!important;right:clamp(18px,4vw,56px)!important;top:50%!important;
+ transform:translateY(-46%) scale(.985)!important;text-align:left!important;
+}
+.intro.show .intro__card{transform:translateY(-50%) scale(1)!important}
+.intro.closing .intro__card{transform:translateY(-54%) scale(.985)!important}
+.intro__text,.intro__note{text-align:left}
+.intro__close{display:block;margin-left:0}
+@media(max-width:700px){
+ .intro{padding:14px}
+ .intro__card{right:14px!important}
+}
+
+/* v47 advisory layout */
+.intro{place-items:center!important;padding:24px!important}
+.intro__card{
+ left:50%!important;right:auto!important;top:50%!important;
+ transform:translate(-50%,-46%) scale(.985)!important;
+ text-align:left!important;
+}
+.intro.show .intro__card{transform:translate(-50%,-50%) scale(1)!important}
+.intro.closing .intro__card{transform:translate(-50%,-54%) scale(.985)!important}
+.intro__text,.intro__note{text-align:left!important}
+.intro__close{display:block;margin-left:auto!important;margin-right:0!important}
+@media(max-width:700px){
+ .intro{padding:14px!important}
+ .intro__card{left:50%!important;right:auto!important}
+}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script></head><body>
+<div id="loader" class="loader"><div class="loader__inner"><div class="loader__row"><div class="loader__title">Loading...</div><div id="loaderText" class="loader__text">0%</div></div><div class="loader__track"><div id="loaderBar" class="loader__bar"></div></div></div></div>
+<div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="Viewer instructions"><div class="intro__card"><div class="intro__text">Click on any Wire or Distributor Object to power up the lights provided from the object</div><div class="intro__note">For the best experience, view this on a desktop.</div><button id="introClose" class="intro__close">Close</button></div></div>
+<div id="tip" class="tip"></div><div id="cablePicker" class="cable-picker"></div>
+<script type="module">
+import * as THREE from 'three'; import {OrbitControls} from 'three/addons/controls/OrbitControls.js'; import {OBJLoader} from 'three/addons/loaders/OBJLoader.js'; import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
+const scene=new THREE.Scene(); scene.background=null; const camera=new THREE.PerspectiveCamera(45,innerWidth/innerHeight,.01,2000); camera.position.set(14,10,14); const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,1.5)); renderer.setSize(innerWidth,innerHeight); renderer.outputColorSpace=THREE.SRGBColorSpace; document.body.appendChild(renderer.domElement); const controls=new OrbitControls(camera,renderer.domElement); controls.enableDamping=false;
+function render(){renderer.render(scene,camera)} controls.addEventListener('change',render);
+scene.add(new THREE.HemisphereLight(0xffffff,0x30343b,2.2)); const dl=new THREE.DirectionalLight(0xffffff,2.4);dl.position.set(8,15,10);scene.add(dl);
+const root=new THREE.Group(); root.rotation.x=-Math.PI/2; root.scale.setScalar(.001); scene.add(root); const sceneG=new THREE.Group(), cableG=new THREE.Group(), pathG=new THREE.Group(), equipmentG=new THREE.Group();root.add(sceneG,cableG,pathG,equipmentG);
+const status={textContent:''},tip=document.querySelector('#tip'),loader=document.querySelector('#loader'),loaderText=document.querySelector('#loaderText'),intro=document.querySelector('#intro'),introClose=document.querySelector('#introClose'); const cablePicker=document.querySelector('#cablePicker'); let loaded=0,introDismissed=false,introShown=false;
+const done=()=>{loaded++;const pct=Math.round(loaded/4*100);loaderText.textContent=pct+'%';loaderBar.style.width=pct+'%';if(loaded===4){focusPowerDistribution();setTimeout(()=>{if(!introDismissed&&!introShown){introShown=true;intro.classList.add('show')}loader.classList.add('done')},180)}render()};
+function cleanObject(o,label){let removed=0;o.traverse(x=>{if(!x.isMesh||!x.geometry?.attributes?.position)return;const src=x.geometry,a=src.attributes.position.array;let bad=false;for(let i=0;i<a.length;i++){if(!Number.isFinite(a[i])||Math.abs(a[i])>1e20){bad=true;break}}if(!bad)return;const g=src.index?src.toNonIndexed():src;const b=g.attributes.position.array,out=[];for(let i=0;i<b.length;i+=9){let ok=true;for(let j=0;j<9;j++)if(!Number.isFinite(b[i+j])||Math.abs(b[i+j])>1e20){ok=false;break}if(ok)for(let j=0;j<9;j++)out.push(b[i+j]);else removed++}g.setAttribute('position',new THREE.Float32BufferAttribute(out,3));g.computeVertexNormals();g.computeBoundingBox();g.computeBoundingSphere();if(g!==src)src.dispose();x.geometry=g});if(removed)console.warn(`${label}: removed ${removed} invalid triangles`);return o}
+const mtl=new MTLLoader();mtl.load('data/scene/scene.mtl',m=>{m.preload();const ol=new OBJLoader();ol.setMaterials(m);ol.load('data/scene/scene.obj',o=>{sceneG.add(cleanObject(o,'data/scene/scene.obj'));done()},undefined,e=>{console.error(e);status.textContent='Scene OBJ failed — see console'})},undefined,e=>{console.warn('MTL failed, loading OBJ without it',e);new OBJLoader().load('data/scene/scene.obj',o=>{sceneG.add(cleanObject(o,'data/scene/scene.obj'));done()})});
+let cableData=[], cableMeta=new Map(), cableHits=[], cableMeshes=new Map(); const cableHitG=new THREE.Group(); root.add(cableHitG);
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2(); let hoveredCable=null,hoveredCableNames=new Set(),chosenOverlapCable=null;
+const cableNormalMaterial=new THREE.MeshStandardMaterial({color:0x111111,roughness:.7,metalness:.05});
+const cableHoverMaterial=new THREE.MeshBasicMaterial({color:0xf3f3ef,depthTest:false,depthWrite:false});
+const cableHitMaterial=new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false,depthTest:false,side:THREE.DoubleSide});
+const CABLE_HIT_RADIUS=28; // tighter cable picking so equipment remains selectable
+function validPoint(p){return p?.length===3&&p.every(v=>Number.isFinite(v)&&Math.abs(v)<1e20)}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmtLength(v){const n=Number(v);return Number.isFinite(n)?`${(n/1000).toFixed(2)} m`:String(v||'—')}
+function findCableName(obj){let x=obj;while(x&&x!==root){if(x.userData?.cableName)return x.userData.cableName;if(x.name&&cableMeta.has(x.name))return x.name;x=x.parent}return null}
+function addCableMesh(name,mesh){if(!cableMeshes.has(name))cableMeshes.set(name,[]);cableMeshes.get(name).push(mesh)}
+function setCableHighlight(name,on){
+  if(!on && energizedCableNames && energizedCableNames.has(name))on=true;for(const m of cableMeshes.get(name)||[]){m.material=on?cableHoverMaterial:cableNormalMaterial;m.renderOrder=on?999:0}}
+function buildCableHitTargets(c){const raw=c.points||[];let run=[];const flush=()=>{if(run.length<2){run=[];return}const path=new THREE.CurvePath();for(let i=0;i<run.length-1;i++)path.add(new THREE.LineCurve3(run[i],run[i+1]));const geom=new THREE.TubeGeometry(path,Math.max(4,(run.length-1)*2),CABLE_HIT_RADIUS,4,false);const hit=new THREE.Mesh(geom,cableHitMaterial);hit.userData.cableName=c.objectName;cableHitG.add(hit);cableHits.push(hit);run=[]};for(const p of raw){if(validPoint(p))run.push(new THREE.Vector3(...p));else flush()}flush()}
+function showCableDetails(c,e){
+ if(!c){tip.style.display='none';return}
+ const from=c.startObjectName||'Unknown',to=c.endObjectName||'Unknown';
+ const startAdapter=String(c.adapterStart||'').trim(),endAdapter=String(c.adapterEnd||'').trim();
+ tip.innerHTML=`<div class="title">${esc(c.loadID||c.objectName)}</div>
+ <div><b>From</b> ${esc(from)}</div><div><b>To</b> ${esc(to)}</div>
+ <div class="connections">
+ 
+ <div><b>Start connector</b> ${esc(c.startConnector||'—')}</div>
+ ${startAdapter?`<div><b>Start adapter</b> ${esc(startAdapter)}</div>`:''}
+ <div><b>End connector</b> ${esc(c.endConnector||'—')}</div>
+ ${endAdapter?`<div><b>End adapter</b> ${esc(endAdapter)}</div>`:''}
+ <div><b>Length</b> ${esc(fmtLength(c.length))}</div>
+ </div>`;
+ tip.style.display='block';
+ tip.style.left=Math.min(innerWidth-390,e.clientX+22)+'px';
+ tip.style.top=Math.min(innerHeight-245,e.clientY+22)+'px';
+}
+function showCableTip(mesh,e){const name=findCableName(mesh),c=name?cableMeta.get(name):null;showCableDetails(c,e)}
+Promise.all([fetch('data/spotlight/cables.json').then(r=>r.json()),new Promise((res,rej)=>new OBJLoader().load('data/spotlight/cables.obj',res,undefined,rej))]).then(([j,o])=>{cableData=j.cables||[]; tryBuildInteraction();for(const c of cableData){cableMeta.set(c.objectName,c);buildCableHitTargets(c)}o=cleanObject(o,'data/spotlight/cables.obj');o.traverse(x=>{if(!x.isMesh)return;x.material=cableNormalMaterial;const name=findCableName(x);if(name){x.userData.cableName=name;addCableMesh(name,x)}});cableG.add(o);console.log(`Cable X-ray hover: ${cableHits.length} enlarged hit meshes for ${cableMeta.size} cables`);done()}).catch(e=>{console.error(e);status.textContent='Cable OBJ failed — see console'});
+fetch('data/spotlight/cable-paths.json').then(r=>r.json()).then(j=>{for(const p of j.cablePaths||[]){const pts=p.points.filter(validPoint).map(q=>new THREE.Vector3(...q));if(pts.length<2)continue;const curve=new THREE.CatmullRomCurve3(pts,false,'centripetal');const geom=new THREE.TubeGeometry(curve,Math.max(24,(pts.length-1)*8),32,10,false);const mat=new THREE.MeshPhysicalMaterial({color:0xdde7ef,transparent:true,opacity:.16,roughness:.08,metalness:0,transmission:.72,thickness:18,ior:1.35,depthWrite:false,side:THREE.DoubleSide});const loom=new THREE.Mesh(geom,mat);loom.userData={path:p};loom.renderOrder=10;pathG.add(loom)}done()}).catch(console.error);
+
+let equipmentData=[], equipmentHits=[], hoveredEquipment=null;
+
+let selectedThing=null;
+const fixtureVisualG=new THREE.Group();root.add(fixtureVisualG);
+const fixtureVisuals=new Map(),downstream=new Map(),downstreamUUID=new Map(),fixtureKeys=new Map(),energizedCableNames=new Set();
+const fanInWayByConnectorUUID=new Map(),fanOutWayByConnectorUUID=new Map();
+
+let interactionBuilt=false;
+function tryBuildInteraction(){
+  if(interactionBuilt || !cableData.length || !equipmentData.length)return;
+  interactionBuilt=true;
+
+  // Name graph remains for general distro traversal. UUID graph is authoritative
+  // wherever Vectorworks supplied object UUIDs; this prevents duplicate IDs/names
+  // (for example two BULB_1_4_FAN objects) being collapsed into one node.
+  for(const c of cableData){
+    addEndpointCable(c.startObjectName,c.objectName);
+    addEndpointCable(c.endObjectName,c.objectName);
+    addEdge(c.startObjectName,c.endObjectName,c.objectName);
+    addUUIDEdge(c.startObjectUUID,c.endObjectUUID,c.objectName);
+  }
+  buildSocapexWayMaps();
+
+  for(const eq of equipmentData){
+    buildEquipmentHit(eq);
+    if(eq.equipmentType==='lightingDevice'){
+      registerFixture(eq);
+      makeFixtureVisual(eq);
+    }
+  }
+  console.info(`Interaction graph ready: ${cableData.length} cables, ${equipmentData.length} equipment`);
+  console.info('Socapex connector maps',{fanIn:[...fanInWayByConnectorUUID],fanOut:[...fanOutWayByConnectorUUID]});
+}
+
+function addEdge(a,b,cableName){a=String(a||'').trim();b=String(b||'').trim();if(!a||!b)return;if(!downstream.has(a))downstream.set(a,[]);downstream.get(a).push({to:b,cableName})}
+function addUUIDEdge(a,b,cableName){a=String(a||'').trim();b=String(b||'').trim();if(!a||!b)return;if(!downstreamUUID.has(a))downstreamUUID.set(a,[]);downstreamUUID.get(a).push({to:b,cableName})}
+function registerFixture(eq){for(const k of equipmentKeys(eq)){if(!fixtureKeys.has(k))fixtureKeys.set(k,[]);fixtureKeys.get(k).push(eq)}}
+function cableNumber(c){const m=String(c?.objectName||'').match(/(\d+)$/);return m?Number(m[1]):Number.MAX_SAFE_INTEGER}
+function directFixtureMatches(key){
+ const k=String(key||'').trim();if(!k)return [];
+ const found=new Set(fixtureKeys.get(k)||[]);
+ for(const eq of equipmentData)if(eq.equipmentType==='lightingDevice'&&equipmentKeys(eq).includes(k))found.add(eq);
+ return [...found]
+}
+const cableByVWUUID=new Map(),distributorByInputCableUUID=new Map(),distributorOutputByCableUUID=new Map(),sixPackWayByConnectorUUID=new Map();
+
+function buildSocapexWayMaps(){
+  // v22: Vectorworks' DistributorObject cable UUID assignments are authoritative.
+  // Connector UUID ordering is no longer inferred from Cable_00xxx order.
+  for(const c of cableData)if(c.vwObjectUUID)cableByVWUUID.set(String(c.vwObjectUUID),c);
+  for(const eq of equipmentData){
+    if(eq.equipmentType!=='distributor')continue;
+    const input=String(eq.inputCableObjectUUID||eq.inputUUID||'').trim();
+    if(input)distributorByInputCableUUID.set(input,eq);
+    for(const o of eq.outputs||[]){
+      const u=String(o.cableObjectUUID||o.uuid||'').trim();
+      if(u)distributorOutputByCableUUID.set(u,{equipment:eq,index:Number(o.index),port:o.port||`Output${o.index}`});
+    }
+  }
+
+  // 6-pack Cable Objects share a stable six-connector sequence.
+  // Learn connector UUID -> physical output 1..6 from every complete 6-pack.
+  // Require all complete packs to agree before accepting a connector mapping.
+  const connectorVotes=new Map();
+  const packGroups=new Map();
+  for(const c of cableData){
+    if(c.cableType!=='JumperCable'||!/^6PACK_/i.test(String(c.startObjectName||''))||!c.startConnectorUUID)continue;
+    const k=String(c.startObjectUUID||c.startObjectName).trim();
+    if(!packGroups.has(k))packGroups.set(k,[]);
+    packGroups.get(k).push(c);
+  }
+  for(const group of packGroups.values()){
+    if(group.length!==6)continue;
+    const ordered=[...group].sort((a,b)=>cableNumber(a)-cableNumber(b));
+    const nums=ordered.map(c=>cableNumber(c));
+    if(!nums.every((n,i)=>i===0||n===nums[i-1]+1))continue;
+    if(new Set(ordered.map(c=>c.startConnectorUUID)).size!==6)continue;
+    ordered.forEach((c,i)=>{
+      if(!connectorVotes.has(c.startConnectorUUID))connectorVotes.set(c.startConnectorUUID,new Set());
+      connectorVotes.get(c.startConnectorUUID).add(i+1);
+    });
+  }
+  for(const [uuid,votes] of connectorVotes){
+    if(votes.size===1)sixPackWayByConnectorUUID.set(uuid,[...votes][0]);
+  }
+  console.info('6PACK connector output map',Object.fromEntries(sixPackWayByConnectorUUID));
+
+  // The fan-out side exposes an explicit OutputN -> cable UUID relationship.
+  // Use that to learn its connector UUID -> actual output number exactly.
+  for(const [uuid,a] of distributorOutputByCableUUID){
+    const c=cableByVWUUID.get(uuid);
+    if(c?.cableType==='PowerCable'&&c.startConnectorUUID){
+      const incoming=String(a.equipment.inputCableObjectUUID||a.equipment.inputUUID||'').trim();
+      const mc=cableByVWUUID.get(incoming);
+      if(mc?.cableType==='MultiCable')fanOutWayByConnectorUUID.set(c.startConnectorUUID,a.index-1);
+    }
+  }
+
+  // Vectorworks only exposes one DistributorObject InputUUID, even on the
+  // multi-way fan-in symbols. Learn only mappings that VW itself confirms:
+  // the registered input cable feeds a fan-in whose multicore feeds a fan-out.
+  // The populated fan-out output count identifies the registered terminal way.
+  // No cable-number sorting or guessed UUID ordering is used.
+  for(const eq of equipmentData){
+    if(eq.equipmentType!=='distributor')continue;
+    const iu=String(eq.inputCableObjectUUID||eq.inputUUID||'').trim();
+    const inc=cableByVWUUID.get(iu);
+    if(inc?.cableType!=='JumperCable'||!inc.endConnectorUUID)continue;
+    const multis=(eq.outputs||[]).map(o=>cableByVWUUID.get(String(o.cableObjectUUID||o.uuid||''))).filter(c=>c?.cableType==='MultiCable');
+    if(multis.length!==1)continue;
+    const fo=distributorByInputCableUUID.get(String(multis[0].vwObjectUUID||''));
+    if(!fo)continue;
+    const idxs=(fo.outputs||[]).map(o=>Number(o.index)).filter(Number.isFinite);
+    if(!idxs.length)continue;
+    const maxIndex=Math.max(...idxs);
+    fanInWayByConnectorUUID.set(inc.endConnectorUUID,maxIndex-1);
+  }
+}
+
+function fixtureForFanOutPort(fanOut,index){
+ const fanName=String(fanOut?.connectionName||fanOut?.id||'').trim();
+ if(!fanName)return [];
+ const circuit=`Output-${index}`;
+ return equipmentData.filter(eq=>eq.equipmentType==='lightingDevice'&&String(eq.connectionName||eq.circuitName||'').trim()===fanName&&String(eq.circuitNumber||'').trim()===circuit);
+}
+function cableForDistributorOutput(eq,index){
+ const o=(eq?.outputs||[]).find(x=>Number(x.index)===Number(index));if(!o)return null;
+ return cableByVWUUID.get(String(o.cableObjectUUID||o.uuid||'').trim())||null;
+}
+function jumperWaySelection(seed){
+ const result={fixtures:new Set(),cables:new Set([seed.objectName]),diagnostic:null,traceQuality:'connector'};
+ const packName=String(seed.startObjectName||'').trim();
+ const connector=String(seed.startConnectorUUID||'').trim();
+
+ // Vectorworks' 6-pack Distributor OutputUUID fields are sparse and can be stale.
+ // The Cable Objects themselves expose six stable connector UUIDs. Learn which
+ // physical output each connector represents from complete six-cable 6-pack groups.
+ let outputIndex=sixPackWayByConnectorUUID.get(connector)||null;
+ if(!outputIndex){
+   result.diagnostic='Cannot identify the 6-pack output connector';
+   return result;
+ }
+
+ // The Lighting Device patch is the electrical authority: e.g. 6PACK_7.003.
+ // This avoids treating a multi-way break-in's single InputUUID as if it described
+ // every incoming jumper.
+ const dimmerKey=`${packName}.${String(outputIndex).padStart(3,'0')}`;
+ const fixtures=equipmentData.filter(eq=>eq.equipmentType==='lightingDevice'&&String(eq.dimmer||'').trim()===dimmerKey);
+ if(fixtures.length!==1){
+   result.diagnostic=`${dimmerKey}: expected one patched Lighting Device, found ${fixtures.length}`;
+   return result;
+ }
+ const fixture=fixtures[0];
+ result.fixtures.add(fixture);
+
+ // Follow the physical cable chain independently of Distributor InputUUID:
+ // jumper -> uniquely named break-in -> its registered multicore -> fan-out.
+ const destName=String(seed.endObjectName||'').trim();
+ const fanIns=equipmentData.filter(eq=>eq.equipmentType==='distributor'&&equipmentKeys(eq).includes(destName));
+ if(fanIns.length!==1){
+   result.diagnostic=`${dimmerKey}: destination break-in is missing or ambiguous`;
+   return result;
+ }
+ const fanIn=fanIns[0];
+ const multis=(fanIn.outputs||[])
+   .map(o=>cableByVWUUID.get(String(o.cableObjectUUID||o.uuid||'').trim()))
+   .filter(c=>c?.cableType==='MultiCable');
+
+ if(multis.length===1){
+   const multi=multis[0];
+   result.cables.add(multi.objectName);
+   const fanOut=distributorByInputCableUUID.get(String(multi.vwObjectUUID||'').trim());
+   if(fanOut){
+     const fixtureFan=String(fixture.connectionName||fixture.circuitName||'').trim();
+     const fanKeys=equipmentKeys(fanOut);
+     const m=/^Output-(\d+)$/i.exec(String(fixture.circuitNumber||'').trim());
+     const way=m?Number(m[1]):null;
+     if(fixtureFan && fanKeys.includes(fixtureFan) && way){
+       const tail=cableForDistributorOutput(fanOut,way);
+       if(tail)result.cables.add(tail.objectName);
+     }
+   }
+ }
+
+ // Distributor UUIDs are now confirmation only. They are not required for selection.
+ const registered=distributorOutputByCableUUID.get(String(seed.vwObjectUUID||'').trim());
+ const confirmed=registered &&
+   equipmentKeys(registered.equipment).includes(packName) &&
+   Number(registered.index)===outputIndex;
+ result.traceQuality=confirmed?'verified':'connector';
+ result.diagnostic=null;
+ console.info('Spotlight connector trace',{
+   cable:seed.objectName,pack:packName,output:outputIndex,dimmer:dimmerKey,
+   fixture:fixture.channel||fixture.fixtureID,
+   circuit:fixture.circuitName,circuitNumber:fixture.circuitNumber,
+   quality:result.traceQuality
+ });
+ return result;
+}
+function multiSelection(seed){
+ const result={fixtures:new Set(),cables:new Set([seed.objectName])};
+ // First use the exported cable endpoint / Lighting Device circuit association.
+ // This is portable across models and does not depend on a particular symbol name.
+ for(const f of directFixtureMatches(seed.endObjectName||''))result.fixtures.add(f);
+
+ // Where Vectorworks exposes the downstream distributor UUID relationship, enrich
+ // the trace with its output cables and exact Output-N fixture associations.
+ const fanOut=distributorByInputCableUUID.get(String(seed.vwObjectUUID||'').trim());
+ if(fanOut){
+   for(const o of fanOut.outputs||[]){
+     const c=cableByVWUUID.get(String(o.cableObjectUUID||o.uuid||'').trim());
+     if(c)result.cables.add(c.objectName);
+     for(const f of fixtureForFanOutPort(fanOut,Number(o.index)))result.fixtures.add(f);
+   }
+ }
+ return result;
+}
+function fanOutPowerSelection(seed){
+ const result={fixtures:new Set(),cables:new Set([seed.objectName])};
+ const a=distributorOutputByCableUUID.get(String(seed.vwObjectUUID||'').trim());
+ if(a){
+   for(const f of fixtureForFanOutPort(a.equipment,a.index))result.fixtures.add(f);
+ }
+ if(!result.fixtures.size){for(const f of directFixtureMatches(seed.endObjectName||''))result.fixtures.add(f)}
+ return result;
+}
+function distributorPowerSelection(eq){
+ const result={fixtures:new Set(),cables:new Set(),diagnostic:null};
+ const visited=new Set();
+
+ function walk(d){
+   if(!d||visited.has(d))return;
+   visited.add(d);
+   const distro=String(d.id||d.connectionName||d.name||'').trim();
+
+   // Lighting Devices can reference a distributor in two generic ways:
+   // 1) dimmer patch prefix (e.g. SMARTPACK_1.010 / 6PACK_7.003)
+   // 2) connection/circuit name (e.g. a Socapex fan-out distributor).
+   // Use both exported relationships; no show-specific distributor names.
+   if(distro){
+     const prefix=distro+'.';
+     for(const f of equipmentData){
+       if(f.equipmentType!=='lightingDevice')continue;
+       const dimmer=String(f.dimmer||'').trim();
+       const connection=String(f.connectionName||f.circuitName||'').trim();
+       if(dimmer.startsWith(prefix)||connection===distro)result.fixtures.add(f);
+     }
+   }
+
+   // 6-packs need their connector-aware branch tracing because their
+   // DistributorObject output UUID list is intentionally sparse.
+   if(/^6PACK_/i.test(distro)){
+     for(const c of cableData){
+       if(c.cableType!=='JumperCable'||String(c.startObjectName||'').trim()!==distro)continue;
+       const branch=jumperWaySelection(c);
+       for(const f of branch.fixtures)result.fixtures.add(f);
+       for(const n of branch.cables)result.cables.add(n);
+     }
+     return;
+   }
+
+   // For HOUSE/DISTRO/SMARTPACK and other upstream distributors, follow each
+   // registered output cable by UUID into the next DistributorObject.
+   for(const o of d.outputs||[]){
+     const uuid=String(o.cableObjectUUID||o.uuid||'').trim();
+     const c=cableByVWUUID.get(uuid);
+     if(c)result.cables.add(c.objectName);
+     const next=distributorByInputCableUUID.get(uuid);
+     if(next)walk(next);
+   }
+
+   // Some VW distributor output records are sparse. Also accept Cable Objects
+   // whose authoritative startObjectUUID/name identifies this distributor, then
+   // resolve their destination by the destination distributor's InputUUID.
+   for(const c of cableData){
+     if(String(c.startObjectName||'').trim()!==distro)continue;
+     result.cables.add(c.objectName);
+     const next=distributorByInputCableUUID.get(String(c.vwObjectUUID||'').trim());
+     if(next)walk(next);
+   }
+ }
+ walk(eq);
+ result.cables.clear();
+ return result;
+}
+function downstreamSelection(startKeys,seedCableName=null){
+ const q=[...new Set(startKeys.filter(Boolean).map(x=>String(x).trim()))].map(key=>({key,incoming:seedCableName})),seen=new Set(q.map(x=>x.key)),fixtures=new Set(),cables=new Set();
+ if(seedCableName)cables.add(seedCableName);
+ while(q.length){
+   const {key,incoming}=q.shift();for(const f of fixtureKeys.get(key)||[])fixtures.add(f);
+   let edges=[...(downstream.get(key)||[])];
+   const incomingCable=incoming?cableMeta.get(incoming):null;
+   if(incomingCable&&incomingCable.cableType!=='MultiCable'){
+     const multi=edges.filter(e=>cableMeta.get(e.cableName)?.cableType==='MultiCable');
+     if(multi.length>1)edges=edges.filter(e=>cableMeta.get(e.cableName)?.cableType!=='MultiCable');
+   }
+   for(const edge of edges){cables.add(edge.cableName);if(!seen.has(edge.to)){seen.add(edge.to);q.push({key:edge.to,incoming:edge.cableName})}}
+ }
+ return{fixtures,cables}
+}
+function fixtureEmitterPositions(eq){
+ const a=(eq.emitters||[]).map(e=>e.worldPosition).filter(validPoint);
+ if(a.length)return a.map(p=>new THREE.Vector3(...p));
+ return validPoint(eq.position)?[new THREE.Vector3(...eq.position)]:[];
+}
+function makeGlowTexture(){
+ const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d'),g=x.createRadialGradient(128,128,0,128,128,128);
+ g.addColorStop(0,'rgba(255,248,218,1)');g.addColorStop(.08,'rgba(255,220,143,.95)');g.addColorStop(.22,'rgba(255,177,83,.62)');g.addColorStop(.52,'rgba(255,145,55,.22)');g.addColorStop(1,'rgba(255,130,40,0)');x.fillStyle=g;x.fillRect(0,0,256,256);return new THREE.CanvasTexture(c)
+}
+const fixtureGlowTexture=makeGlowTexture();
+function makeFixtureVisual(eq){
+ if(eq.equipmentType!=='lightingDevice')return;
+ const g=new THREE.Group();g.userData.eq=eq;
+ for(const p of fixtureEmitterPositions(eq)){
+   const marker=new THREE.Group();marker.position.copy(p);
+   // Two additive sprites create a readable hot core + broad bloom without replacing the VW bulb geometry.
+   const outer=new THREE.Sprite(new THREE.SpriteMaterial({map:fixtureGlowTexture,color:0xffa85b,transparent:true,opacity:0,depthTest:false,depthWrite:false,blending:THREE.AdditiveBlending}));outer.scale.set(900,900,1);outer.userData.glowRole='outer';outer.renderOrder=1198;
+   const inner=new THREE.Sprite(new THREE.SpriteMaterial({map:fixtureGlowTexture,color:0xffe1a6,transparent:true,opacity:0,depthTest:false,depthWrite:false,blending:THREE.AdditiveBlending}));inner.scale.set(360,360,1);inner.userData.glowRole='inner';inner.renderOrder=1199;
+   const light=new THREE.PointLight(0xffc078,12,2200,1.7);light.userData.glowRole='light';
+   marker.add(outer,inner,light);g.add(marker);
+   marker.visible=false;
+ }
+ fixtureVisualG.add(g);fixtureVisuals.set(eq,g)
+}
+const litFixtures=new Set(),fixtureFadeState=new Map();
+let fixtureFadeRAF=0;
+const FIXTURE_FADE_MS=280;
+function fixtureLevel(eq,level){
+ const g=fixtureVisuals.get(eq);if(!g)return;
+ for(const marker of g.children){
+   marker.visible=level>.002;
+   for(const child of marker.children){
+     if(child.userData.glowRole==='outer')child.material.opacity=.34*level;
+     else if(child.userData.glowRole==='inner')child.material.opacity=.78*level;
+     else if(child.userData.glowRole==='light')child.intensity=12*level;
+   }
+ }
+}
+function currentFixtureLevel(eq,now=performance.now()){
+ const f=fixtureFadeState.get(eq);if(!f)return litFixtures.has(eq)?1:0;
+ const t=Math.min(1,(now-f.start)/FIXTURE_FADE_MS),e=t*t*(3-2*t);
+ return f.from+(f.to-f.from)*e;
+}
+function runFixtureFades(now){
+ let active=false;
+ for(const [eq,f] of [...fixtureFadeState]){
+   const t=Math.min(1,(now-f.start)/FIXTURE_FADE_MS),e=t*t*(3-2*t);
+   fixtureLevel(eq,f.from+(f.to-f.from)*e);
+   if(t>=1){fixtureFadeState.delete(eq);fixtureLevel(eq,f.to)}else active=true;
+ }
+ render();
+ fixtureFadeRAF=active?requestAnimationFrame(runFixtureFades):0;
+}
+function fadeFixture(eq,on){
+ const now=performance.now(),to=on?1:0,from=currentFixtureLevel(eq,now);
+ if(Math.abs(from-to)<.002){fixtureFadeState.delete(eq);fixtureLevel(eq,to);return}
+ fixtureFadeState.set(eq,{from,to,start:now});
+ if(!fixtureFadeRAF)fixtureFadeRAF=requestAnimationFrame(runFixtureFades);
+}
+function updateLitFixtures(next){
+ for(const eq of litFixtures)if(!next.has(eq))fadeFixture(eq,false);
+ for(const eq of next)if(!litFixtures.has(eq))fadeFixture(eq,true);
+ litFixtures.clear();for(const eq of next)litFixtures.add(eq);
+}
+function clearPowerSelection(){
+ equipmentSelectionG.clear();
+ updateLitFixtures(new Set());
+ const old=[...energizedCableNames];energizedCableNames.clear();
+ for(const n of old)setCableHighlight(n,false);
+ selectedThing=null;status.textContent='Ready';render();
+}
+function applyPowerSelection(kind,data){
+ equipmentSelectionG.clear();
+ let result={fixtures:new Set(),cables:new Set()};
+ if(kind==='fixture'){result.fixtures.add(data);for(const n of connectedCableNames(data))result.cables.add(n)}
+ else if(kind==='equipment'){
+   if(data.equipmentType==='distributor'){showSelectedEquipmentBox(data);result=distributorPowerSelection(data)}
+   else result=downstreamSelection(equipmentKeys(data));
+ }
+ else if(kind==='cable')result=data.cableType==='JumperCable'?jumperWaySelection(data):data.cableType==='MultiCable'?multiSelection(data):(distributorOutputByCableUUID.has(String(data.vwObjectUUID||'').trim())?fanOutPowerSelection(data):downstreamSelection([data.endObjectName],data.objectName));
+ for(const n of [...energizedCableNames])if(!result.cables.has(n)){energizedCableNames.delete(n);setCableHighlight(n,false)}
+ for(const n of result.cables)if(!energizedCableNames.has(n)){energizedCableNames.add(n);setCableHighlight(n,true)}
+ updateLitFixtures(result.fixtures);
+ console.info('Power selection',kind,data?.objectName||data?.id||data?.channel||'',{fixtures:[...result.fixtures].map(f=>f.channel||f.circuitName||f.id),cables:[...result.cables],diagnostic:result.diagnostic||null});
+ status.textContent=result.diagnostic?'Trace unavailable':'Ready';
+ selectedThing={kind,data};render();
+}
+
+const equipmentHitMaterial=new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false,depthTest:false,side:THREE.DoubleSide});
+const equipmentHoverMaterial=new THREE.MeshBasicMaterial({color:0xf3f3ef,wireframe:true,transparent:true,opacity:.9,depthTest:false,depthWrite:false});
+const equipmentHighlightG=new THREE.Group(); root.add(equipmentHighlightG);
+const equipmentSelectionG=new THREE.Group(); root.add(equipmentSelectionG);
+const cablesByEndpoint=new Map();
+
+function addEndpointCable(key,cableName){
+  key=String(key||'').trim(); if(!key)return;
+  if(!cablesByEndpoint.has(key))cablesByEndpoint.set(key,new Set());
+  cablesByEndpoint.get(key).add(cableName);
+}
+function equipmentKeys(eq){
+  const keys=new Set();
+  for(const v of [eq.connectionName,eq.id,eq.circuitName,eq.channel,eq.mvrID]){
+    const k=String(v||'').trim(); if(k)keys.add(k);
+  }
+  return [...keys];
+}
+function connectedCableNames(eq){
+  const out=new Set();
+  for(const k of equipmentKeys(eq))for(const n of cablesByEndpoint.get(k)||[])out.add(n);
+  return [...out];
+}
+function equipmentDisplayPosition(eq){ return new THREE.Vector3(...eq.position); }
+function fixtureInteractionPosition(eq){
+  const p=fixtureEmitterPositions(eq);
+  return p.length?p[0]:equipmentDisplayPosition(eq);
+}
+
+function equipmentVisualGeometry(eq){
+  if(eq.equipmentType==='distributor'&&Array.isArray(eq.size)){
+    const d=eq.size.map(v=>Math.max(1,Number(v)||1));return new THREE.BoxGeometry(...d);
+  }
+  return new THREE.SphereGeometry(120,16,10);
+}
+function equipmentHitGeometry(eq){
+  if(eq.equipmentType==='distributor'&&Array.isArray(eq.size)){
+    // Use the exported distributor bounds, with only a modest minimum pick size.
+    // No symbol/name-specific geometry assumptions.
+    const d=eq.size.map(v=>Math.max(100,Number(v)||100));return new THREE.BoxGeometry(...d);
+  }
+  return new THREE.SphereGeometry(150,12,8);
+}
+function applyEquipmentTransform(mesh,eq){
+  mesh.position.copy(eq.equipmentType==='lightingDevice'?fixtureInteractionPosition(eq):equipmentDisplayPosition(eq));
+  mesh.rotation.z=THREE.MathUtils.degToRad(Number(eq.rotationZ)||0);
+}
+function buildEquipmentHit(eq){
+  if(!validPoint(eq.position))return;
+  const hit=new THREE.Mesh(equipmentHitGeometry(eq),equipmentHitMaterial);
+  applyEquipmentTransform(hit,eq);hit.userData.equipment=eq;equipmentG.add(hit);equipmentHits.push(hit);
+}
+function clearEquipmentHighlight(){equipmentHighlightG.clear()}
+function makeEquipmentBox(eq,opacity=0.95){
+  if(eq?.equipmentType!=='distributor'||!Array.isArray(eq.size)||!validPoint(eq.position))return null;
+  const d=eq.size.map(v=>Math.max(1,Number(v)||1));
+  const edges=new THREE.EdgesGeometry(new THREE.BoxGeometry(...d));
+  const mat=new THREE.LineBasicMaterial({color:0xf3f3ef,depthTest:false,depthWrite:false,transparent:true,opacity});
+  const box=new THREE.LineSegments(edges,mat);
+  applyEquipmentTransform(box,eq);
+  box.renderOrder=1001;
+  return box;
+}
+function showEquipmentHighlight(eq){
+  clearEquipmentHighlight();
+  const box=makeEquipmentBox(eq,.95);if(box)equipmentHighlightG.add(box);
+}
+function showSelectedEquipmentBox(eq){
+  equipmentSelectionG.clear();
+  const box=makeEquipmentBox(eq,1);if(box)equipmentSelectionG.add(box);
+}
+function setEquipmentCableHighlights(eq,on){
+  // Equipment hover highlights only the equipment bounding box.
+  // Connected cables are intentionally left unchanged.
+}
+function showEquipmentTip(eq,e){
+  const linked=connectedCableNames(eq);
+  if(eq.equipmentType==='distributor'){
+    const distroName=String(eq.id||eq.connectionName||eq.name||'').trim();
+    const incoming=[],outgoing=[];
+
+    // Build this from every Cable Object, not DistributorObject.outputs[].
+    // Keep one entry per physical cable: different ways may legitimately have
+    // the same destination object, so deduplicating destination names loses ways.
+    const distroKeys=new Set(equipmentKeys(eq).filter(Boolean).map(x=>String(x).trim()));
+    if(distroName)distroKeys.add(distroName);
+    const eqUUID=String(eq.vwObjectUUID||eq.uuid||'').trim();
+    for(const c of cableData){
+      const start=String(c.startObjectName||'').trim(),end=String(c.endObjectName||'').trim();
+      const startUUID=String(c.startObjectUUID||'').trim(),endUUID=String(c.endObjectUUID||'').trim();
+      const startsHere=(start&&distroKeys.has(start))||(eqUUID&&startUUID===eqUUID);
+      const endsHere=(end&&distroKeys.has(end))||(eqUUID&&endUUID===eqUUID);
+      if(endsHere&&start)incoming.push(start);
+      if(startsHere&&end)outgoing.push(end);
+    }
+    const fedFrom=[...new Set(incoming)].join(', ')||'—';
+    const feedingTo=outgoing.join(', ')||'—';
+    tip.innerHTML=`<div class="title">${esc(eq.id||eq.name||'Distributor')}</div>
+      <div><b>Type</b> ${esc(eq.symbolName||eq.deviceType||'Distributor')}</div>
+      <div class="connections"><div><b>Fed from</b> ${esc(fedFrom)}</div>
+      <div><b>Feeding to</b> ${esc(feedingTo)}</div></div>`;
+  }else{
+    tip.innerHTML=`<div class="title">${esc(eq.channel?`Channel ${eq.channel}`:(eq.circuitName||eq.fixtureID||'Lighting Device'))}</div>
+      <div><b>Fixture</b> ${esc(eq.instrumentType||eq.fixtureID||'—')}</div>
+      <div><b>Position</b> ${esc(eq.positionName||'—')} ${eq.unitNumber?`/ Unit ${esc(eq.unitNumber)}`:''}</div>
+      <div><b>Dimmer</b> ${esc(eq.dimmer||'—')}</div>
+      <div><b>Circuit</b> ${esc(eq.circuitName||'—')} ${eq.circuitNumber?`(${esc(eq.circuitNumber)})`:''}</div>
+      <div><b>Wattage</b> ${esc(eq.wattage||'—')}</div>
+      <div class="connections"><b>Connected cables</b> ${linked.length}</div>`;
+  }
+  tip.style.display='block';
+  tip.style.left=Math.min(innerWidth-390,e.clientX+22)+'px';
+  tip.style.top=Math.min(innerHeight-270,e.clientY+22)+'px';
+}
+fetch('data/spotlight/equipment.json').then(r=>r.json()).then(j=>{
+  equipmentData=j.equipment||[];
+  tryBuildInteraction();
+  console.log(`Equipment hover: ${equipmentHits.length} targets`);
+  done();
+}).catch(e=>{console.error(e);status.textContent='Equipment JSON failed — see console'});
+
+function pointerTargets(){
+ const cable= cableG.visible ? ray.intersectObjects(cableHits,false)[0]||null : null;
+ const equipment= equipmentG.visible ? ray.intersectObjects(equipmentHits,false)[0]||null : null;
+ // Cable hit tubes are deliberately tight. If the pointer is actually on one,
+ // select the cable; otherwise fall through to the equipment volume.
+ return cable ? {cable:cable.object,equipment:null}
+              : {cable:null,equipment:equipment?.object||null};
+}
+function processPointerMove(e){if(matchMedia('(pointer:coarse)').matches)return;
+  mouse.x=e.clientX/renderer.domElement.clientWidth*2-1;
+  mouse.y=-(e.clientY/renderer.domElement.clientHeight)*2+1;
+  ray.setFromCamera(mouse,camera);
+  const targets=pointerTargets(),cableHit=targets.cable,equipmentHit=targets.equipment;
+
+  if(equipmentHit){
+    chosenOverlapCable=null;
+    if(hoveredCable||hoveredCableNames.size){for(const n of hoveredCableNames)setCableHighlight(n,false);hoveredCableNames.clear();hoveredCable=null}
+    const eq=equipmentHit.userData?.equipment||null;
+    if(eq!==hoveredEquipment){
+      if(hoveredEquipment)setEquipmentCableHighlights(hoveredEquipment,false);
+      hoveredEquipment=eq;clearEquipmentHighlight();
+      if(eq){showEquipmentHighlight(eq);setEquipmentCableHighlights(eq,true)}
+    }
+    if(eq){showEquipmentTip(eq,e);renderer.domElement.style.cursor='pointer'}else{tip.style.display='none';renderer.domElement.style.cursor=''}
+    render();return;
+  }
+
+  if(cableHit){
+    if(hoveredEquipment){setEquipmentCableHighlights(hoveredEquipment,false);hoveredEquipment=null;clearEquipmentHighlight()}
+    const hits=ray.intersectObjects(cableHits,false),nextNames=new Set();
+    if(hits.length){
+      const d0=hits[0].distance;
+      // Treat near-identical ray hits as the same visible overlap stack.
+      for(const h of hits){
+        if(h.distance-d0>55)break;
+        const n=findCableName(h.object);if(n)nextNames.add(n);
+      }
+    }
+    for(const n of hoveredCableNames)if(!nextNames.has(n))setCableHighlight(n,false);
+    for(const n of nextNames)if(!hoveredCableNames.has(n))setCableHighlight(n,true);
+    hoveredCableNames=nextNames;
+    hoveredCable=cableHit;
+    const names=[...nextNames];
+    if(chosenOverlapCable&&nextNames.has(chosenOverlapCable.objectName)){
+      showCableDetails(chosenOverlapCable,e);
+    }else{
+      if(chosenOverlapCable)chosenOverlapCable=null;
+      if(names.length>1){
+        tip.innerHTML=`<div class="title">${names.length} overlapping cables</div><div>Click to choose a cable</div>`;
+        tip.style.display='block';tip.style.left=Math.min(innerWidth-260,e.clientX+22)+'px';tip.style.top=Math.min(innerHeight-100,e.clientY+22)+'px';
+      }else showCableTip(cableHit,e);
+    }
+    renderer.domElement.style.cursor='pointer';render();return;
+  }
+
+  if(hoveredCable||hoveredCableNames.size){for(const n of hoveredCableNames)setCableHighlight(n,false);hoveredCableNames.clear();hoveredCable=null}
+  chosenOverlapCable=null;
+  const eq=equipmentHit?.userData?.equipment||null;
+  if(eq!==hoveredEquipment){
+    if(hoveredEquipment)setEquipmentCableHighlights(hoveredEquipment,false);
+    hoveredEquipment=eq;clearEquipmentHighlight();
+    if(eq){showEquipmentHighlight(eq);setEquipmentCableHighlights(eq,true)}
+  }
+  if(eq){showEquipmentTip(eq,e);renderer.domElement.style.cursor='pointer'}
+  else{tip.style.display='none';renderer.domElement.style.cursor=''}
+  render();
+}
+let pendingPointerEvent=null,pointerTimer=0;
+renderer.domElement.addEventListener('pointermove',e=>{pendingPointerEvent=e;if(pointerTimer)return;pointerTimer=setTimeout(()=>{pointerTimer=0;const ev=pendingPointerEvent;pendingPointerEvent=null;if(ev)processPointerMove(ev)},32)});
+renderer.domElement.addEventListener('pointerleave',()=>{
+  const n=hoveredCable?findCableName(hoveredCable):null;if(n)setCableHighlight(n,false);hoveredCable=null;
+  if(hoveredEquipment)setEquipmentCableHighlights(hoveredEquipment,false);
+  hoveredEquipment=null;clearEquipmentHighlight();tip.style.display='none';renderer.domElement.style.cursor='';render();
+});
+function focusPowerDistribution(){
+  // Start over the power-distribution area using cable connection points,
+  // so this remains correct if the Vectorworks export moves slightly.
+  const raw=[];
+  for(const c of cableData){
+    for(const [pointKey,nameKey] of [['startPoint','startObjectName'],['endPoint','endObjectName']]){
+      const name=String(c[nameKey]||'').toUpperCase();
+      if(!/(DISTRO|SMARTPACK|6PACK)/.test(name))continue;
+      const p=c[pointKey];
+      if(validPoint(p))raw.push(new THREE.Vector3(...p));
+    }
+  }
+  if(!raw.length){fit();return}
+  const box=new THREE.Box3().setFromPoints(raw);
+  const localCenter=box.getCenter(new THREE.Vector3());
+  // Convert from raw Vectorworks XYZ through the root transform to Three.js world space.
+  const c=localCenter.clone(); root.localToWorld(c);
+  controls.target.copy(c);
+  camera.position.copy(c).add(new THREE.Vector3(2.8,3.2,3.8));
+  camera.near=.01; camera.far=2000; camera.updateProjectionMatrix(); controls.update();
+}
+function fit(){const b=new THREE.Box3().setFromObject(root);if(b.isEmpty())return;const s=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3()),r=Math.max(s.x,s.y,s.z);controls.target.copy(c);camera.position.copy(c).add(new THREE.Vector3(r*.8,r*.55,r*.8));camera.near=Math.max(.01,r/10000);camera.far=Math.max(100,r*20);camera.updateProjectionMatrix();controls.update()}
+
+
+let pointerDownAt=null;
+renderer.domElement.addEventListener('pointerdown',e=>{pointerDownAt={x:e.clientX,y:e.clientY}});
+
+function hideCablePicker(){cablePicker.classList.remove('show');cablePicker.innerHTML=''}
+function cableCandidatesAtPointer(){
+ const hits=ray.intersectObjects(cableHits,false),names=[],seen=new Set();
+ if(!hits.length)return names;
+ const d0=hits[0].distance;
+ for(const h of hits){
+   if(h.distance-d0>55)break;
+   const n=findCableName(h.object);
+   if(n&&!seen.has(n)){seen.add(n);names.push(n)}
+ }
+ return names;
+}
+function showCablePicker(names,e){
+ cablePicker.innerHTML='<div class="cable-picker__title">Select cable</div>';
+ for(const name of names){
+   const c=cableMeta.get(name);if(!c)continue;
+   const b=document.createElement('button');
+   const label=c.loadID||c.objectName;
+   b.innerHTML=`${esc(label)}<span>${esc(c.startObjectName||'Unknown')} → ${esc(c.endObjectName||'Unknown')}</span>`;
+   b.onclick=ev=>{ev.stopPropagation();chosenOverlapCable=c;hideCablePicker();applyPowerSelection('cable',c);showCableDetails(c,ev)};
+   cablePicker.appendChild(b);
+ }
+ const x=Math.min(innerWidth-350,Math.max(8,e.clientX+12)),y=Math.min(innerHeight-300,Math.max(8,e.clientY+12));
+ cablePicker.style.left=x+'px';cablePicker.style.top=y+'px';cablePicker.classList.add('show');
+}
+renderer.domElement.addEventListener('click',e=>{
+ if(pointerDownAt&&Math.hypot(e.clientX-pointerDownAt.x,e.clientY-pointerDownAt.y)>5){pointerDownAt=null;return}
+ pointerDownAt=null;
+ mouse.x=e.clientX/renderer.domElement.clientWidth*2-1;mouse.y=-(e.clientY/renderer.domElement.clientHeight)*2+1;ray.setFromCamera(mouse,camera);
+ const targets=pointerTargets(),eq=targets.equipment?.userData?.equipment;
+ if(eq){hideCablePicker();applyPowerSelection(eq.equipmentType==='lightingDevice'?'fixture':'equipment',eq);return}
+ const cableNames=targets.cable?cableCandidatesAtPointer():[];
+ if(cableNames.length===1){hideCablePicker();const c=cableMeta.get(cableNames[0]);if(c)applyPowerSelection('cable',c);return}
+ if(cableNames.length>1){showCablePicker(cableNames,e);return}
+ hideCablePicker();clearPowerSelection();render()
+});
+
+
+addEventListener('keydown',e=>{
+  if(e.key!=='Escape')return;
+  hideCablePicker();clearPowerSelection();
+  const n=hoveredCable?findCableName(hoveredCable):null;
+  if(n)setCableHighlight(n,false);
+  hoveredCable=null;
+  if(hoveredEquipment)setEquipmentCableHighlights(hoveredEquipment,false);
+  hoveredEquipment=null;
+  clearEquipmentHighlight();
+  tip.style.display='none';
+  renderer.domElement.style.cursor='';render();
+});
+
+introClose.addEventListener('click',()=>{introDismissed=true;intro.classList.add('closing');setTimeout(()=>intro.remove(),520)});
+
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);render()});render();
+</script></body></html>

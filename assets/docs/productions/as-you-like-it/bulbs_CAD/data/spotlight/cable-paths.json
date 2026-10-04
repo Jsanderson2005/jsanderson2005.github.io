@@ -1,0 +1,463 @@
+{
+  "formatVersion": 2,
+  "visibilityFilter": {
+    "documentLayerAndClassVisibility": true,
+    "hiddenValue": -1,
+    "grayedIncluded": true,
+    "viewportOverridesApplied": false
+  },
+  "coordinateSystem": {
+    "source": "Vectorworks",
+    "coordinates": "raw-world-xyz",
+    "axisConversionApplied": false,
+    "scaleConversionApplied": false
+  },
+  "renderHint": {
+    "style": "interactive-centreline",
+    "colour": "purple",
+    "transparent": true,
+    "defaultOpacity": 0.18,
+    "hoverOpacity": 0.85
+  },
+  "associationHint": {
+    "preferCableListEntries": true,
+    "fallback": "geometric-centreline-proximity",
+    "note": "CableList may contain <No ID assigned>; use cable centreline points as fallback."
+  },
+  "cablePaths": [
+    {
+      "id": "CablePath_00001",
+      "layer": "Distro",
+      "class": "None",
+      "layerVisibility": 0,
+      "classVisibility": 0,
+      "location": "",
+      "cableCount": "3",
+      "length": "9.405308562757804e03",
+      "cableArea": "0 sq m",
+      "cableList": "<No ID assigned>\r<No ID assigned>\r<No ID assigned>",
+      "cableListEntries": [
+        "<No ID assigned>",
+        "<No ID assigned>",
+        "<No ID assigned>"
+      ],
+      "nurbsPieces": 1,
+      "sampledPoints": 13,
+      "points": [
+        [
+          8245.000000000002,
+          1930.0,
+          6124.0
+        ],
+        [
+          8254.375000000002,
+          1930.0,
+          4811.5
+        ],
+        [
+          8282.500000000002,
+          1930.0,
+          3874.0000000000005
+        ],
+        [
+          8329.375000000002,
+          1930.0,
+          3311.5000000000005
+        ],
+        [
+          8395.000000000002,
+          1930.0,
+          3124.000000000001
+        ],
+        [
+          8460.625000000002,
+          1930.0,
+          3321.3761934757113
+        ],
+        [
+          8507.500000000002,
+          1930.0,
+          3913.5047739028428
+        ],
+        [
+          8535.625000000002,
+          1930.0,
+          4900.385741281397
+        ],
+        [
+          8545.000000000002,
+          1930.0,
+          6282.01909561137
+        ],
+        [
+          8560.93544751687,
+          1930.0,
+          7663.652449941345
+        ],
+        [
+          8608.74179006747,
+          1930.0,
+          8650.533417319899
+        ],
+        [
+          8688.419027651806,
+          1930.0,
+          9242.66199774703
+        ],
+        [
+          8799.967160269875,
+          1930.0,
+          9440.03819122274
+        ]
+      ]
+    },
+    {
+      "id": "CablePath_00002",
+      "layer": "Distro",
+      "class": "None",
+      "layerVisibility": 0,
+      "classVisibility": 0,
+      "location": "",
+      "cableCount": "4",
+      "length": "9.405308562757804e03",
+      "cableArea": "0 sq m",
+      "cableList": "<No ID assigned>\r<No ID assigned>\r<No ID assigned>\r<No ID assigned>",
+      "cableListEntries": [
+        "<No ID assigned>",
+        "<No ID assigned>",
+        "<No ID assigned>",
+        "<No ID assigned>"
+      ],
+      "nurbsPieces": 1,
+      "sampledPoints": 13,
+      "points": [
+        [
+          8245.0,
+          2950.0,
+          6124.0
+        ],
+        [
+          8254.375,
+          2950.0,
+          4811.5
+        ],
+        [
+          8282.5,
+          2950.0,
+          3874.0000000000005
+        ],
+        [
+          8329.375,
+          2950.0,
+          3311.5000000000005
+        ],
+        [
+          8395.0,
+          2950.0,
+          3124.000000000001
+        ],
+        [
+          8460.625,
+          2950.0,
+          3321.3761934757113
+        ],
+        [
+          8507.5,
+          2950.0,
+          3913.5047739028428
+        ],
+        [
+          8535.625,
+          2950.0,
+          4900.385741281397
+        ],
+        [
+          8545.0,
+          2950.0,
+          6282.01909561137
+        ],
+        [
+          8560.935447516867,
+          2950.0,
+          7663.652449941345
+        ],
+        [
+          8608.741790067468,
+          2950.0,
+          8650.533417319899
+        ],
+        [
+          8688.419027651804,
+          2950.0,
+          9242.66199774703
+        ],
+        [
+          8799.967160269873,
+          2950.0,
+          9440.03819122274
+        ]
+      ]
+    },
+    {
+      "id": "CablePath_00003",
+      "layer": "Distro",
+      "class": "None",
+      "layerVisibility": 0,
+      "classVisibility": 0,
+      "location": "",
+      "cableCount": "4",
+      "length": "9.405308562757804e03",
+      "cableArea": "0 sq m",
+      "cableList": "<No ID assigned>\r<No ID assigned>\r<No ID assigned>\r<No ID assigned>",
+      "cableListEntries": [
+        "<No ID assigned>",
+        "<No ID assigned>",
+        "<No ID assigned>",
+        "<No ID assigned>"
+      ],
+      "nurbsPieces": 1,
+      "sampledPoints": 13,
+      "points": [
+        [
+          8245.0,
+          4120.0,
+          6124.0
+        ],
+        [
+          8254.375,
+          4120.0,
+          4811.5
+        ],
+        [
+          8282.5,
+          4120.0,
+          3874.0000000000005
+        ],
+        [
+          8329.375,
+          4120.0,
+          3311.5000000000005
+        ],
+        [
+          8395.0,
+          4120.0,
+          3124.000000000001
+        ],
+        [
+          8460.625,
+          4120.0,
+          3321.3761934757113
+        ],
+        [
+          8507.5,
+          4120.0,
+          3913.5047739028428
+        ],
+        [
+          8535.625,
+          4120.0,
+          4900.385741281397
+        ],
+        [
+          8545.0,
+          4120.0,
+          6282.01909561137
+        ],
+        [
+          8560.935447516867,
+          4120.0,
+          7663.652449941345
+        ],
+        [
+          8608.741790067468,
+          4120.0,
+          8650.533417319899
+        ],
+        [
+          8688.419027651804,
+          4120.0,
+          9242.66199774703
+        ],
+        [
+          8799.967160269873,
+          4120.0,
+          9440.03819122274
+        ]
+      ]
+    },
+    {
+      "id": "CablePath_00004",
+      "layer": "Distro",
+      "class": "None",
+      "layerVisibility": 0,
+      "classVisibility": 0,
+      "location": "",
+      "cableCount": "4",
+      "length": "9.405308562757804e03",
+      "cableArea": "0 sq m",
+      "cableList": "<No ID assigned>\r<No ID assigned>\r<No ID assigned>\r<No ID assigned>",
+      "cableListEntries": [
+        "<No ID assigned>",
+        "<No ID assigned>",
+        "<No ID assigned>",
+        "<No ID assigned>"
+      ],
+      "nurbsPieces": 1,
+      "sampledPoints": 13,
+      "points": [
+        [
+          8245.0,
+          5100.0,
+          6124.0
+        ],
+        [
+          8254.375,
+          5100.0,
+          4811.5
+        ],
+        [
+          8282.5,
+          5100.0,
+          3874.0000000000005
+        ],
+        [
+          8329.375,
+          5100.0,
+          3311.5000000000005
+        ],
+        [
+          8395.0,
+          5100.0,
+          3124.000000000001
+        ],
+        [
+          8460.625,
+          5100.0,
+          3321.3761934757113
+        ],
+        [
+          8507.5,
+          5100.0,
+          3913.5047739028428
+        ],
+        [
+          8535.625,
+          5100.0,
+          4900.385741281397
+        ],
+        [
+          8545.0,
+          5100.0,
+          6282.01909561137
+        ],
+        [
+          8560.935447516867,
+          5100.0,
+          7663.652449941345
+        ],
+        [
+          8608.741790067468,
+          5100.0,
+          8650.533417319899
+        ],
+        [
+          8688.419027651804,
+          5100.0,
+          9242.66199774703
+        ],
+        [
+          8799.967160269873,
+          5100.0,
+          9440.03819122274
+        ]
+      ]
+    },
+    {
+      "id": "CablePath_00005",
+      "layer": "Distro",
+      "class": "None",
+      "layerVisibility": 0,
+      "classVisibility": 0,
+      "location": "",
+      "cableCount": "4",
+      "length": "9.405308562757804e03",
+      "cableArea": "0 sq m",
+      "cableList": "<No ID assigned>\r<No ID assigned>\r<No ID assigned>\r<No ID assigned>",
+      "cableListEntries": [
+        "<No ID assigned>",
+        "<No ID assigned>",
+        "<No ID assigned>",
+        "<No ID assigned>"
+      ],
+      "nurbsPieces": 1,
+      "sampledPoints": 13,
+      "points": [
+        [
+          8245.0,
+          6280.0,
+          6124.0
+        ],
+        [
+          8254.375,
+          6280.0,
+          4811.5
+        ],
+        [
+          8282.5,
+          6280.0,
+          3874.0000000000005
+        ],
+        [
+          8329.375,
+          6280.0,
+          3311.5000000000005
+        ],
+        [
+          8395.0,
+          6280.0,
+          3124.000000000001
+        ],
+        [
+          8460.625,
+          6280.0,
+          3321.3761934757113
+        ],
+        [
+          8507.5,
+          6280.0,
+          3913.5047739028428
+        ],
+        [
+          8535.625,
+          6280.0,
+          4900.385741281397
+        ],
+        [
+          8545.0,
+          6280.0,
+          6282.01909561137
+        ],
+        [
+          8560.935447516867,
+          6280.0,
+          7663.652449941345
+        ],
+        [
+          8608.741790067468,
+          6280.0,
+          8650.533417319899
+        ],
+        [
+          8688.419027651804,
+          6280.0,
+          9242.66199774703
+        ],
+        [
+          8799.967160269873,
+          6280.0,
+          9440.03819122274
+        ]
+      ]
+    }
+  ]
+}

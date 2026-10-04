@@ -1,0 +1,74 @@
+newmtl Material_1
+Kd 0 0 0
+d 1
+
+newmtl Material_2
+Kd 1 0.545098 0.152941
+d 0.1
+
+newmtl Material_3
+Kd 1 1 1
+d 1
+map_Kd Texture_371.png
+
+newmtl Material_4
+Kd 0.0941176 0.0980392 0.0980392
+d 1
+
+newmtl Material_5
+Kd 0 0 1
+d 1
+
+newmtl Material_6
+Kd 0.529412 0.529412 0.529412
+d 1
+
+newmtl Material_7
+Kd 1 0.666667 0.2
+d 1
+
+newmtl Material_8
+Kd 0 1 0
+d 1
+
+newmtl Material_9
+Kd 0.784314 0.784314 0.784314
+d 1
+
+newmtl Material_10
+Kd 0.913725 0.952941 0.952941
+d 1
+
+newmtl Material_11
+Kd 0.188235 0.2 0.2
+d 1
+
+newmtl Material_12
+Kd 0.498039 0.498039 0.498039
+d 1
+
+newmtl Material_13
+Kd 1 1 1
+d 1
+map_Kd Texture_2801.png
+
+newmtl Material_14
+Kd 0.6 0.6 0.6
+d 1
+
+newmtl Material_15
+Kd 1 1 0
+d 1
+
+newmtl Material_16
+Kd 0.2 0.2 0.2
+d 1
+
+newmtl Material_17
+Kd 1 0 0
+d 1
+
+newmtl Material_18
+Kd 1 0.984314 0.960784
+d 1
+
