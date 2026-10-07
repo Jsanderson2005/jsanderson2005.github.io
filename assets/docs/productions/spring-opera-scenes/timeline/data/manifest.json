@@ -1,0 +1,296 @@
+{
+  "version": 29,
+  "generatedAt": "2026-10-07T23:52:34+0100",
+  "objDecimals": 4,
+  "geometryMode": "hybrid-island-instancing",
+  "packTargetMiB": 90.0,
+  "assets": {
+    "venue": {
+      "id": "venue",
+      "kind": "base",
+      "instances": "data/venue.instances.json",
+      "materials": "data/materials/venue/materials.mtl",
+      "sourceStem": "01-venue",
+      "sections": 4196,
+      "instancesCount": 6030,
+      "wholeReused": 3179,
+      "promotedIslandInstances": 1210
+    },
+    "base-set": {
+      "id": "base-set",
+      "kind": "base",
+      "instances": "data/base-set.instances.json",
+      "materials": "data/materials/base-set/materials.mtl",
+      "sourceStem": "02-base-set",
+      "sections": 1518,
+      "instancesCount": 4705,
+      "wholeReused": 310,
+      "promotedIslandInstances": 3123
+    },
+    "lighting": {
+      "id": "lighting",
+      "kind": "base",
+      "instances": "data/lighting.instances.json",
+      "materials": "data/materials/lighting/materials.mtl",
+      "sourceStem": "03-lighting",
+      "sections": 1814,
+      "instancesCount": 1814,
+      "wholeReused": 150,
+      "promotedIslandInstances": 0
+    },
+    "green-curtain": {
+      "id": "green-curtain",
+      "kind": "change",
+      "instances": "data/green-curtain.instances.json",
+      "materials": "data/materials/green-curtain/materials.mtl",
+      "sourceStem": "04-green-curtain",
+      "sections": 1,
+      "instancesCount": 1,
+      "wholeReused": 0,
+      "promotedIslandInstances": 0
+    },
+    "ruched-curtain": {
+      "id": "ruched-curtain",
+      "kind": "change",
+      "instances": "data/ruched-curtain.instances.json",
+      "materials": "data/materials/ruched-curtain/materials.mtl",
+      "sourceStem": "05-ruched-curtain",
+      "sections": 4,
+      "instancesCount": 4,
+      "wholeReused": 0,
+      "promotedIslandInstances": 0
+    },
+    "chandelier-2": {
+      "id": "chandelier-2",
+      "kind": "change",
+      "instances": "data/chandelier-2.instances.json",
+      "materials": "data/materials/chandelier-2/materials.mtl",
+      "sourceStem": "06-chandelier-2",
+      "sections": 110,
+      "instancesCount": 110,
+      "wholeReused": 0,
+      "promotedIslandInstances": 0
+    },
+    "chandelier-3": {
+      "id": "chandelier-3",
+      "kind": "change",
+      "instances": "data/chandelier-3.instances.json",
+      "materials": "data/materials/chandelier-3/materials.mtl",
+      "sourceStem": "07-chandelier-3",
+      "sections": 110,
+      "instancesCount": 110,
+      "wholeReused": 0,
+      "promotedIslandInstances": 0
+    },
+    "poppea": {
+      "id": "poppea",
+      "kind": "production",
+      "instances": "data/poppea.instances.json",
+      "materials": "data/materials/poppea/materials.mtl",
+      "sourceStem": "10-poppea",
+      "sections": 227,
+      "instancesCount": 227,
+      "wholeReused": 6,
+      "promotedIslandInstances": 0
+    },
+    "don-pasquale": {
+      "id": "don-pasquale",
+      "kind": "production",
+      "instances": "data/don-pasquale.instances.json",
+      "materials": "data/materials/don-pasquale/materials.mtl",
+      "sourceStem": "11-don-pasquale",
+      "sections": 74,
+      "instancesCount": 74,
+      "wholeReused": 7,
+      "promotedIslandInstances": 0
+    },
+    "war-and-peace": {
+      "id": "war-and-peace",
+      "kind": "production",
+      "instances": "data/war-and-peace.instances.json",
+      "materials": "data/materials/war-and-peace/materials.mtl",
+      "sourceStem": "12-war-and-peace",
+      "sections": 80,
+      "instancesCount": 80,
+      "wholeReused": 7,
+      "promotedIslandInstances": 0
+    },
+    "manon": {
+      "id": "manon",
+      "kind": "production",
+      "instances": "data/manon.instances.json",
+      "materials": "data/materials/manon/materials.mtl",
+      "sourceStem": "13-manon",
+      "sections": 90,
+      "instancesCount": 90,
+      "wholeReused": 18,
+      "promotedIslandInstances": 0
+    },
+    "la-gioconda": {
+      "id": "la-gioconda",
+      "kind": "production",
+      "instances": "data/la-gioconda.instances.json",
+      "materials": "data/materials/la-gioconda/materials.mtl",
+      "sourceStem": "14-la-gioconda",
+      "sections": 81,
+      "instancesCount": 81,
+      "wholeReused": 26,
+      "promotedIslandInstances": 0
+    },
+    "dialogue-of-the-carmelites": {
+      "id": "dialogue-of-the-carmelites",
+      "kind": "production",
+      "instances": "data/dialogue-of-the-carmelites.instances.json",
+      "materials": "data/materials/dialogue-of-the-carmelites/materials.mtl",
+      "sourceStem": "15-dialogue-of-the-carmelites",
+      "sections": 56,
+      "instancesCount": 56,
+      "wholeReused": 6,
+      "promotedIslandInstances": 0
+    },
+    "glorianna": {
+      "id": "glorianna",
+      "kind": "production",
+      "instances": "data/glorianna.instances.json",
+      "materials": "data/materials/glorianna/materials.mtl",
+      "sourceStem": "16-glorianna",
+      "sections": 56,
+      "instancesCount": 56,
+      "wholeReused": 21,
+      "promotedIslandInstances": 0
+    },
+    "don-giovanni": {
+      "id": "don-giovanni",
+      "kind": "production",
+      "instances": "data/don-giovanni.instances.json",
+      "materials": "data/materials/don-giovanni/materials.mtl",
+      "sourceStem": "17-don-giovanni",
+      "sections": 56,
+      "instancesCount": 56,
+      "wholeReused": 53,
+      "promotedIslandInstances": 0
+    },
+    "der-rosenkavalier": {
+      "id": "der-rosenkavalier",
+      "kind": "production",
+      "instances": "data/der-rosenkavalier.instances.json",
+      "materials": "data/materials/der-rosenkavalier/materials.mtl",
+      "sourceStem": "18-der-rosenkavalier",
+      "sections": 56,
+      "instancesCount": 56,
+      "wholeReused": 55,
+      "promotedIslandInstances": 0
+    }
+  },
+  "base": [
+    "venue",
+    "base-set",
+    "lighting"
+  ],
+  "viewer": {
+    "home": {
+      "position": [
+        5986.67,
+        -7116.88,
+        1670.4
+      ],
+      "target": [
+        -0.02,
+        -51.12,
+        3840.0
+      ],
+      "fov": 42
+    },
+    "bounds": null,
+    "boundaryMargin": -140,
+    "elasticZone": 420,
+    "elasticStrength": 0.28,
+    "walkSpeed": 2350
+  },
+  "timeline": [
+    {
+      "id": "poppea",
+      "name": "Poppea",
+      "production": "poppea",
+      "changes": [
+        "green-curtain",
+        "ruched-curtain"
+      ]
+    },
+    {
+      "id": "don-pasquale",
+      "name": "Don Pasquale",
+      "production": "don-pasquale",
+      "changes": [
+        "green-curtain",
+        "ruched-curtain"
+      ]
+    },
+    {
+      "id": "war-and-peace",
+      "name": "War and Peace",
+      "production": "war-and-peace",
+      "changes": [
+        "green-curtain",
+        "ruched-curtain"
+      ]
+    },
+    {
+      "id": "war-and-peace-pt2",
+      "name": "War and Peace \u2014 Pt 2",
+      "production": "war-and-peace",
+      "changes": [
+        "green-curtain"
+      ]
+    },
+    {
+      "id": "manon",
+      "name": "Manon",
+      "production": "manon",
+      "changes": [
+        "green-curtain"
+      ]
+    },
+    {
+      "id": "la-gioconda",
+      "name": "La Gioconda",
+      "production": "la-gioconda",
+      "changes": [
+        "green-curtain"
+      ]
+    },
+    {
+      "id": "dialogue-of-the-carmelites",
+      "name": "Dialogue of the Carmelites",
+      "production": "dialogue-of-the-carmelites",
+      "changes": [
+        "chandelier-2"
+      ]
+    },
+    {
+      "id": "glorianna",
+      "name": "Glorianna",
+      "production": "glorianna",
+      "changes": [
+        "chandelier-2"
+      ]
+    },
+    {
+      "id": "don-giovanni",
+      "name": "Don Giovanni",
+      "production": "don-giovanni",
+      "changes": [
+        "chandelier-2"
+      ]
+    },
+    {
+      "id": "der-rosenkavalier",
+      "name": "Der Rosenkavalier",
+      "production": "der-rosenkavalier",
+      "changes": [
+        "chandelier-2",
+        "chandelier-3"
+      ]
+    }
+  ]
+}

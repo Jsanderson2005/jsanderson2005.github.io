@@ -70,6 +70,65 @@
         </aside>
 
         <div class="detail-stack">
+          <section class="detail-panel" id="documentation" aria-labelledby="documentation-title">
+            <span class="label">Documentation</span>
+            <h2 id="documentation-title">Production Planning</h2>
+            <ol class="docs-grid doc-process" data-doc-process>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="fika-doc-original">Practicals</button>
+                <div class="doc-card__details" id="fika-doc-original" data-doc-step-panel hidden>
+                  <p class="doc-card__description">The original concept showed 3 different chandeleir designs that had to be moved around during the different opera acts<br>
+                    Due to the requirements of the show, I designed these chandeleirs to be completely wireless using ESP microcontrollers.<br>
+                    I designed PCBs to fit inside the termial blocks of the chandeleirs to dim individual stems/channels.<br>
+                    Below you can see the schematic and footprints I sent off to the manufacturer.
+                  </p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/spring-opera-scenes/pcb-layout.pdf">PCB Layout</a>
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/spring-opera-scenes/pcb-schematic.pdf">PCB Schematic</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="fika-doc-original">Practicals - Improved</button>
+                <div class="doc-card__details" id="fika-doc-original" data-doc-step-panel hidden>
+                  <p class="doc-card__description">This inspired me to make a 'all in one' solution to other wireless practicals considering the limitations of existing systems.<br>
+                    This would be modular so that you could have different boards, layered on top of each other, to power different LED types: PWM, pixel, etc. With the PWM board having a MOSFET for cutting power when the pixels aren't it.<br>
+                    Another feature I started to design was a custom USB-C potential difference negotiation board which was customisable through software.<br>
+                    A lot of this is still in the design phase, which is shown below.
+                  </p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/spring-opera-scenes/new-schematic-modular.pdf">A snippet of the new PCB schematic</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="fika-doc-original">3D Modelling</button>
+                <div class="doc-card__details" id="fika-doc-original" data-doc-step-panel hidden>
+                  <p class="doc-card__description">The show was hosted in a studio-type enviroment, with a versatile pipe strucutre above a tension wire grid.<br>
+                    Due to having such a versatile grid, I decided to model the venue in VWX to make sure that no department clashed with each other<br>
+                    It also meant that the lighting designer could pre-visualise the show in a more accurate 3D enviroment.
+                    The venue was modelled from architectural drawings and textured in VWX.
+                    Below is a timeline of the different scenes of the show.
+                  </p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/spring-opera-scenes/timeline/index.html">3D Timeline</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card doc-card--contact">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="fika-doc-context">What the files do not show</button>
+                <div class="doc-card__details" id="fika-doc-context" data-doc-step-panel hidden>
+                  <p class="doc-card__description">This is only a small rundown of this project. There was more I learnt from this project which isn't shown in these files. Feel free to contact me if you want to know more.</p>
+                  <div class="doc-card__actions doc-card__actions--contact">
+                    <a class="doc-card__open" href="mailto:joshua@jsanderson.net">Email</a>
+                    <a class="doc-card__open" href="https://www.linkedin.com/in/joshua-sanderson-0bb244241/" target="_blank" rel="noreferrer">LinkedIn</a>
+                    <a class="doc-card__open" href="https://www.instagram.com/joshuasandersontech" target="_blank" rel="noreferrer">Instagram</a>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </section>
+
           <section class="detail-panel" id="gallery" aria-labelledby="gallery-title">
             <span class="label">Photos</span>
             <h2 id="gallery-title">Show gallery</h2>

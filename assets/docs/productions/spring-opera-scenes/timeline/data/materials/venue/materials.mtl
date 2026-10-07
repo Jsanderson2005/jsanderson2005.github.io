@@ -1,0 +1,42 @@
+newmtl Material_1
+Kd 1 1 1
+d 1
+map_Kd Texture_1785.png
+
+newmtl Material_2
+Kd 1 1 1
+d 1
+map_Kd Texture_264.png
+
+newmtl Material_3
+Kd 1 1 1
+d 1
+map_Kd Texture_1585.png
+
+newmtl Material_4
+Kd 1 1 1
+d 1
+map_Kd Texture_1625.png
+
+newmtl Material_5
+Kd 1 1 1
+d 1
+map_Kd Texture_1583.png
+
+newmtl Material_6
+Kd 1 1 1
+d 1
+map_Kd Texture_863.png
+
+newmtl Material_7
+Kd 0 0 0
+d 1
+
+newmtl Material_8
+Kd 0.866667 0.729412 0.6
+d 1
+
+newmtl Material_9
+Kd 0.34902 0.34902 0.584314
+d 1
+
