@@ -10,18 +10,18 @@
     <meta property="og:title" content="The Welkin | Joshua Sanderson" />
     <meta property="og:description" content="The Welkin production electrician work, wireless practicals, documentation, and show photos." />
     <meta property="og:url" content="https://jsanderson.net/productions/the-welkin.html" />
-    <meta property="og:image" content="https://jsanderson.net/assets/photos/productions/the-welkin/welkin-hero.jpg" />
+    <meta property="og:image" content="https://jsanderson.net/assets/photos/productions/the-welkin/welkin-hero.webp" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="The Welkin | Joshua Sanderson" />
     <meta name="twitter:description" content="The Welkin production electrician work, wireless practicals, documentation, and show photos." />
-    <meta name="twitter:image" content="https://jsanderson.net/assets/photos/productions/the-welkin/welkin-hero.jpg" />
+    <meta name="twitter:image" content="https://jsanderson.net/assets/photos/productions/the-welkin/welkin-hero.webp" />
     <link rel="icon" href="../assets/photos/js-powder-logo-512.png" type="image/png" />
     <link rel="stylesheet" href="../styles.css" />
   </head>
   <body>
     <header class="site-header" data-header>
       <a class="brand" href="../index.html">
-        <span class="brand-mark"><img src="../assets/photos/js-powder-logo-512.png" alt="" width="40" height="40" decoding="async" /></span>
+        <span class="brand-mark"><img src="../assets/photos/js-powder-logo-512.webp" alt="" width="40" height="40" decoding="async" /></span>
         <span>Joshua Sanderson</span>
       </a>
       <nav class="nav-links" aria-label="Primary navigation">
@@ -34,7 +34,7 @@
     <main>
       <section class="show-hero">
         <div class="show-hero__image">
-          <img decoding="async" fetchpriority="high" src="../assets/photos/productions/the-welkin/welkin-hero.jpg" srcset="../assets/photos/productions/the-welkin/welkin-hero-640.jpg 640w, ../assets/photos/productions/the-welkin/welkin-hero-1200.jpg 1200w, ../assets/photos/productions/the-welkin/welkin-hero.jpg 1800w" sizes="100vw" alt="The Welkin production photo" />
+          <img decoding="async" fetchpriority="high" src="../assets/photos/productions/the-welkin/welkin-hero.webp" srcset="../assets/photos/productions/the-welkin/welkin-hero-640.webp 640w, ../assets/photos/productions/the-welkin/welkin-hero-1200.webp 1200w, ../assets/photos/productions/the-welkin/welkin-hero.webp 1800w" sizes="100vw" alt="The Welkin production photo" />
         </div>
         <div class="show-hero__copy">
           <p class="eyebrow">Production Electrician</p>
@@ -54,7 +54,7 @@
           <h2 id="role-title">Production Electrician</h2>
         </div>
         <div class="role-card">
-          <p>I designed and built custom wireless candles using ESP32-C3s. These recieved unicast sACN from a private network. The ESP32 processors also handled battery management and safety of a mini 3.7v Li-Ion Cell.</p>
+          <p>I designed and built custom wireless candles using ESP32-C3s. These received unicast sACN from a private network. The ESP32 processors also handled battery management and safety of a mini 3.7v Li-ion cell.</p>
         </div>
       </section>
 
@@ -63,37 +63,79 @@
           <div class="detail-panel">
             <span class="label">Credits</span>
             <ul class="credit-list">
-              <li><strong>Stella-Jane Odoemelan</strong> designer</li>
-              <li><strong>Rohan Green</strong> lighting designer</li>
+              <li><strong>Stella-Jane Odoemelan</strong> Designer</li>
+              <li><strong>Rohan Green</strong> Lighting Designer</li>
             </ul>
           </div>
         </aside>
 
         <div class="detail-stack">
+          <section class="detail-panel" id="documentation" aria-labelledby="documentation-title">
+            <span class="label">Documentation</span>
+            <h2 id="documentation-title">Production Planning</h2>
+            <ol class="docs-grid doc-process" data-doc-process>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="welkin-doc-din-practicals">DIN Rail Practicals</button>
+                <div class="doc-card__details" id="welkin-doc-din-practicals" data-doc-step-panel hidden>
+                  <p class="doc-card__description">One of the practicals requested by the designer is a fireplace with different functionalities: a small fog generator and some pixel tape to light up the fog.</p>
+                  <p class="doc-card__description">I decided to enclose this in a DIN rail enclosure, using a pixel driver for the LED tape and ESP32 to control a relay for the fog. I designed this all in VWX before building the enclosure.</p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/the-welkin/din-practicals-render.pdf">DIN practicals render</a>
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/the-welkin/din-practicals-result.webp">DIN practicals result</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="welkin-doc-wireless-candles">Wireless Candles</button>
+                <div class="doc-card__details" id="welkin-doc-wireless-candles" data-doc-step-panel hidden>
+                  <p class="doc-card__description">Another practical request was to have wireless candles that could be turned off and on remotely.</p>
+                  <p class="doc-card__description">There were no solutions out there that would fit into an LED candle enclosure, so I embedded a lithium-ion cell and an ESP32-C3 into the body, with the ESP32-C3 controlling a small 3V LED originally used by the candle.</p>
+                  <p class="doc-card__description">The C3 had inbuilt functionality to handle the lithium-ion battery management, so the candles could be programmed and charged by a single USB-C port. You can see them in action in the show photos below.</p>
+                </div>
+              </li>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="welkin-doc-show-networking">Show Networking</button>
+                <div class="doc-card__details" id="welkin-doc-show-networking" data-doc-step-panel hidden>
+                  <p class="doc-card__description">All the HoDs on this show agreed on a central network and I was tasked with creating a base network.</p>
+                  <p class="doc-card__description">I settled on using multiple switches for each department, with different VLANs for each department and use-case, with a Cisco router providing specific non-critical services for designers. I also had a main server running as a hypervisor, running show recording services for designers and DNS discovery between different VLANs.</p>
+                  <p class="doc-card__description">One main benefit with this layout is we could route unicast traffic between VLANs without having multicast leaks with the multiple different protocols that each department would be using.</p>
+                  <p class="doc-card__description">One example of this unicast traffic routing is multiple designers wanted different information, like specific NDI cameras they wanted to view, so we deployed an NDI Discovery server so that we could route NDI traffic without saturating other production-critical services. I also hosted a networking teaching session where we used the switches that were going to be deployed to teach the other HoDs how to safely configure the network devices in a network at this level of complexity.</p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/the-welkin/lx-network.webp">LX network</a>
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/the-welkin/network-stack.webp">Network stack</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card doc-card--contact">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="welkin-doc-context">What the files do not show</button>
+                <div class="doc-card__details" id="welkin-doc-context" data-doc-step-panel hidden>
+                  <p class="doc-card__description">This is only a small part of the things I did on this production. There was a lot more configured in the network, for example, which I can tell you all about if you want to give me a message:</p>
+                  <div class="doc-card__actions doc-card__actions--contact">
+                    <a class="doc-card__open" href="mailto:joshua@jsanderson.net">Email</a>
+                    <a class="doc-card__open" href="https://www.linkedin.com/in/joshua-sanderson-0bb244241/" target="_blank" rel="noreferrer">LinkedIn</a>
+                    <a class="doc-card__open" href="https://www.instagram.com/joshuasandersontech" target="_blank" rel="noreferrer">Instagram</a>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </section>
+
           <section class="detail-panel" id="gallery" aria-labelledby="gallery-title">
             <span class="label">Photos</span>
             <h2 id="gallery-title">Show gallery</h2>
             <div class="gallery">
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-welkin/welkin-hero.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-welkin/welkin-hero.jpg" srcset="../assets/photos/productions/the-welkin/welkin-hero-640.jpg 640w, ../assets/photos/productions/the-welkin/welkin-hero-1200.jpg 1200w, ../assets/photos/productions/the-welkin/welkin-hero.jpg 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Welkin stage photo" />
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-welkin/welkin-hero.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-welkin/welkin-hero.webp" srcset="../assets/photos/productions/the-welkin/welkin-hero-640.webp 640w, ../assets/photos/productions/the-welkin/welkin-hero-1200.webp 1200w, ../assets/photos/productions/the-welkin/welkin-hero.webp 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Welkin stage photo" />
               </button>
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-welkin/welkin-1.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-welkin/welkin-1.jpg" srcset="../assets/photos/productions/the-welkin/welkin-1-640.jpg 640w, ../assets/photos/productions/the-welkin/welkin-1-1200.jpg 1200w, ../assets/photos/productions/the-welkin/welkin-1.jpg 1400w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Welkin production lighting photo" />
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-welkin/welkin-1.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-welkin/welkin-1.webp" srcset="../assets/photos/productions/the-welkin/welkin-1-640.webp 640w, ../assets/photos/productions/the-welkin/welkin-1-1200.webp 1200w, ../assets/photos/productions/the-welkin/welkin-1.webp 1400w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Welkin production lighting photo" />
               </button>
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-welkin/welkin-2.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-welkin/welkin-2.jpg" srcset="../assets/photos/productions/the-welkin/welkin-2-640.jpg 640w, ../assets/photos/productions/the-welkin/welkin-2.jpg 933w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Welkin portrait production photo" />
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-welkin/welkin-2.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-welkin/welkin-2.webp" srcset="../assets/photos/productions/the-welkin/welkin-2-640.webp 640w, ../assets/photos/productions/the-welkin/welkin-2.webp 933w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Welkin portrait production photo" />
               </button>
             </div>
           </section>
 
-          <section class="detail-panel" id="documentation" aria-labelledby="documentation-title">
-            <span class="label">Documentation</span>
-            <h2 id="documentation-title">Production files</h2>
-            <div class="docs-grid">
-              <a class="doc-link" href="../assets/docs/productions/the-welkin/img-3263.jpg">IMG 3263</a>
-              <a class="doc-link" href="../assets/docs/productions/the-welkin/practicals-start-v2026.pdf">Practicals Start v2026</a>
-            </div>
-          </section>
         </div>
       </section>
     </main>

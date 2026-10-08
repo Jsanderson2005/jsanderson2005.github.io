@@ -511,8 +511,7 @@ main > .section,
   opacity: 1;
 }
 
-.production-grid,
-.personal-grid {
+.production-grid {
   display: flex;
   gap: 14px;
   width: 100%;
@@ -525,8 +524,7 @@ main > .section,
   scrollbar-width: none;
 }
 
-.production-grid::-webkit-scrollbar,
-.personal-grid::-webkit-scrollbar {
+.production-grid::-webkit-scrollbar {
   display: none;
 }
 
@@ -622,75 +620,6 @@ main > .section,
   display: block;
   max-width: 520px;
   margin-top: 10px;
-  color: var(--muted);
-}
-
-.personal-section {
-  padding-top: clamp(58px, 8vw, 108px);
-}
-
-.personal-card {
-  position: relative;
-  display: grid;
-  flex: 0 0 clamp(280px, 30vw, 420px);
-  min-height: 330px;
-  align-content: space-between;
-  overflow: hidden;
-  padding: 22px;
-  background:
-    linear-gradient(135deg, rgba(244, 239, 230, 0.085), rgba(244, 239, 230, 0.025)),
-    var(--panel);
-  box-shadow: 0 22px 62px rgba(0, 0, 0, 0.32);
-}
-
-.personal-card::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 2px;
-  content: "";
-  background: linear-gradient(90deg, var(--blue), var(--copper), var(--gold), transparent);
-  opacity: 0.78;
-}
-
-.personal-card::after {
-  position: absolute;
-  right: -20%;
-  bottom: -18%;
-  width: 70%;
-  height: 70%;
-  content: "";
-  background: linear-gradient(135deg, rgba(var(--blue-rgb), 0.2), rgba(var(--copper-rgb), 0.11), transparent 64%);
-  transform: skew(-16deg);
-  pointer-events: none;
-}
-
-.personal-card:hover {
-  transform: translateY(-3px);
-}
-
-.personal-card__number {
-  color: rgba(244, 239, 230, 0.28);
-  font-size: clamp(2.8rem, 7vw, 5.5rem);
-  font-weight: 860;
-  line-height: 0.82;
-}
-
-.personal-card__body {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: 8px;
-}
-
-.personal-card__title {
-  font-size: clamp(1.45rem, 2.5vw, 2.1rem);
-  font-weight: 860;
-  line-height: 1.03;
-}
-
-.personal-card__text {
   color: var(--muted);
 }
 
@@ -865,20 +794,28 @@ main > .section,
   display: grid;
   grid-template-columns: minmax(0, 0.82fr) minmax(280px, 1fr);
   gap: clamp(28px, 6vw, 84px);
+  align-items: start;
   background:
     linear-gradient(90deg, rgba(var(--gold-rgb), 0.1), rgba(var(--copper-rgb), 0.055), transparent 38%),
     rgba(17, 21, 28, 0.5);
 }
 
 .role-card {
+  display: flex;
+  align-items: flex-start;
+  min-width: 0;
+  margin-top: calc(1.25rem + 17px);
+}
+
+.role-card p {
   position: relative;
   padding-left: 24px;
 }
 
-.role-card::before {
+.role-card p::before {
   position: absolute;
-  top: 0.42em;
-  bottom: 0.42em;
+  top: 0.14em;
+  bottom: 0.18em;
   left: 0;
   width: 3px;
   content: "";
@@ -1156,6 +1093,14 @@ main > .section,
   display: grid;
   grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
   gap: clamp(28px, 6vw, 80px);
+}
+
+.show-main.show-main--full {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.show-main.show-main--full > .detail-stack {
+  grid-column: 1;
 }
 
 .show-main__credits {
@@ -1529,6 +1474,10 @@ main > .section,
   line-height: 1.55;
 }
 
+.doc-card__description + .doc-card__description {
+  margin-top: 10px;
+}
+
 .doc-card__actions {
   display: flex;
   flex-wrap: wrap;
@@ -1883,7 +1832,8 @@ main > .section,
 }
 
 .document-modal__body iframe,
-.document-modal__body img {
+.document-modal__body img,
+.document-modal__body video {
   display: block;
   width: 100%;
   height: 100%;
@@ -1893,6 +1843,11 @@ main > .section,
 .document-modal__body img {
   object-fit: contain;
   padding: 18px;
+}
+
+.document-modal__body video {
+  object-fit: contain;
+  background: #05070a;
 }
 
 .video-modal__panel {
@@ -1998,7 +1953,6 @@ main > .section,
     font-size: clamp(2.35rem, min(13vw, 8.6svh), 4.35rem);
   }
 
-  .personal-grid,
   .cv-section,
   .socials-section,
   .intro-band,
@@ -2011,6 +1965,10 @@ main > .section,
     grid-template-columns: 1fr;
   }
 
+  .role-card {
+    margin-top: 0;
+  }
+
   .production-card,
   .production-card img {
     min-height: 330px;
@@ -2019,11 +1977,6 @@ main > .section,
   .production-card,
   .production-card--feature {
     flex-basis: min(82vw, 390px);
-  }
-
-  .personal-card {
-    flex-basis: min(82vw, 370px);
-    min-height: 300px;
   }
 
   .project-story__item {

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sphere Projection Mapping | Joshua Sanderson</title>
+    <meta name="description" content="Sphere Projection Mapping video engineering work, project notes, and production photos." />
+    <link rel="canonical" href="https://jsanderson.net/productions/sphere-projection-mapping.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Sphere Projection Mapping | Joshua Sanderson" />
+    <meta property="og:description" content="Sphere Projection Mapping video engineering work, project notes, and production photos." />
+    <meta property="og:url" content="https://jsanderson.net/productions/sphere-projection-mapping.html" />
+    <meta property="og:image" content="https://jsanderson.net/assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sphere Projection Mapping | Joshua Sanderson" />
+    <meta name="twitter:description" content="Sphere Projection Mapping video engineering work, project notes, and production photos." />
+    <meta name="twitter:image" content="https://jsanderson.net/assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero.webp" />
+    <link rel="icon" href="../assets/photos/js-powder-logo-512.png" type="image/png" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="brand" href="../index.html">
+        <span class="brand-mark"><img src="../assets/photos/js-powder-logo-512.webp" alt="" width="40" height="40" decoding="async" /></span>
+        <span>Joshua Sanderson</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="../index.html#work">Productions</a>
+        <a href="../index.html#cv">CV</a>
+        <a href="../index.html#socials">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="show-hero">
+        <div class="show-hero__image">
+          <img decoding="async" fetchpriority="high" src="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero.webp" srcset="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero-640.webp 640w, ../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero-1200.webp 1200w, ../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero.webp 1800w" sizes="100vw" alt="Sphere Projection Mapping production photo" />
+        </div>
+        <div class="show-hero__copy">
+          <p class="eyebrow">Video Engineer</p>
+          <h1>Sphere Projection Mapping</h1>
+          <p>Projection mapping and video engineering for an experimental sphere installation.</p>
+          <div class="show-links">
+            <a class="back-link" href="../index.html#work">Back to productions</a>
+            <a class="back-link" href="#gallery">Gallery</a>
+            <a class="back-link" href="#documentation">Documentation</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="show-intro" aria-labelledby="role-title">
+        <div>
+          <p class="eyebrow">My role</p>
+          <h2 id="role-title">Video Engineer</h2>
+        </div>
+        <div class="role-card">
+          <p>I was the video engineer for an experimental show where we projected onto a sphere as a globe above a performer. I used D3's OmniCal system to adjust the mapping from four projectors.</p>
+        </div>
+      </section>
+
+      <section class="show-main show-main--full">
+        <div class="detail-stack">
+          <section class="detail-panel" id="documentation" aria-labelledby="documentation-title">
+            <span class="label">Documentation</span>
+            <h2 id="documentation-title">Production Planning</h2>
+            <ol class="docs-grid doc-process" data-doc-process>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="sphere-doc-concept">Projector Planning</button>
+                <div class="doc-card__details" id="sphere-doc-concept" data-doc-step-panel hidden>
+                  <p class="doc-card__description">When given the original brief, I was able to contact an inflatable company to rent an inflatable sphere that had the right material to project onto.</p>
+                  <p class="doc-card__description">I then put the sphere and projectors that were available to us into D3 and planned the best angles and hanging points for them. I compared the positions within D3 to positions in Vectorworks to get the best rigging points for the projectors.</p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/sphere-projection-mapping/d3_mapping.webp">D3 mapping plan</a>
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/sphere-projection-mapping/sphere_01.pdf">Sphere projection plan</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="sphere-doc-system">Mapping and Content</button>
+                <div class="doc-card__details" id="sphere-doc-system" data-doc-step-panel hidden>
+                  <p class="doc-card__description">I was able to use the OmniCal system with four cameras to accurately projection map the sphere, so that any content we put on the sphere in Disguise ended up accurately mapped in D3.</p>
+                  <p class="doc-card__description">My first test was downloading some equirectangular files from NASA, which mapped nicely onto the sphere. I was then able to render some effects within TouchDesigner, one of my favourites being lighting around the sphere.</p>
+                  <p class="doc-card__description">Once this was all mapped, I was able to hand over to a content designer who created some base content to display on the sphere.</p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/sphere-projection-mapping/sphere_td.MOV">TouchDesigner Sphere Test</a>
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/sphere-projection-mapping/td_lightning_generator.webp">TouchDesigner Lightning Generator</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card doc-card--contact">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="sphere-doc-context">What the files do not show</button>
+                <div class="doc-card__details" id="sphere-doc-context" data-doc-step-panel hidden>
+                  <p class="doc-card__description">This does not show how much Disguise programming went into this project. I learnt a lot about the software and can tell you more if you want to contact me:</p>
+                  <div class="doc-card__actions doc-card__actions--contact">
+                    <a class="doc-card__open" href="mailto:joshua@jsanderson.net">Email</a>
+                    <a class="doc-card__open" href="https://www.linkedin.com/in/joshua-sanderson-0bb244241/" target="_blank" rel="noreferrer">LinkedIn</a>
+                    <a class="doc-card__open" href="https://www.instagram.com/joshuasandersontech" target="_blank" rel="noreferrer">Instagram</a>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </section>
+
+          <section class="detail-panel" id="gallery" aria-labelledby="gallery-title">
+            <span class="label">Photos</span>
+            <h2 id="gallery-title">Show gallery</h2>
+            <div class="gallery">
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero.webp" srcset="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero-640.webp 640w, ../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero-1200.webp 1200w, ../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-hero.webp 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="Sphere projection mapping on stage" />
+              </button>
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-1.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-1.webp" srcset="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-1-640.webp 640w, ../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-1-1200.webp 1200w, ../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-1.webp 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="Sphere projection mapping production view" />
+              </button>
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-2.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-2.webp" srcset="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-2-640.webp 640w, ../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-2-1200.webp 1200w, ../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-2.webp 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="Sphere projection mapping setup detail" />
+              </button>
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-3.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-3.webp" srcset="../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-3-640.webp 640w, ../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-3-1200.webp 1200w, ../assets/photos/productions/sphere-projection-mapping/sphere-projection-mapping-3.webp 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="Sphere projection mapping production photo" />
+              </button>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <div class="lightbox" data-lightbox aria-hidden="true">
+      <button type="button" data-lightbox-close aria-label="Close image">&times;</button>
+      <img data-lightbox-image alt="" />
+    </div>
+
+    <footer class="site-footer">
+      <p>&copy; <span data-year></span> Joshua Sanderson</p>
+      <a href="../index.html#work">All productions</a>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

@@ -12,9 +12,7 @@ const galleryButtons = Array.from(document.querySelectorAll("[data-gallery-image
 const lazyImages = document.querySelectorAll('img[loading="lazy"]');
 const scrollComparisons = document.querySelectorAll("[data-scroll-comparison]");
 const comparisonScrollCues = document.querySelectorAll("[data-comparison-scroll-cue]");
-const personalProjectsFeature = document.querySelectorAll('[data-feature="personal-projects"]');
 let activeGalleryIndex = 0;
-const showPersonalProjects = false;
 const wheelDeltaPixelMode = 0;
 const wheelDeltaLineMode = 1;
 const wheelDeltaPageMode = 2;
@@ -459,10 +457,6 @@ const setupDocumentProcesses = () => {
   });
 };
 
-personalProjectsFeature.forEach((element) => {
-  element.hidden = !showPersonalProjects;
-});
-
 setupLazyImageIndicators();
 setupScrollComparisons();
 setupDocumentProcesses();
@@ -651,6 +645,8 @@ const downloadDocument = async (event) => {
 const modalDownloadButton = documentModal?.querySelector("[data-document-download]");
 modalDownloadButton?.addEventListener("click", downloadDocument);
 
+const isVideoPath = (pathname) => /\.(mp4|webm|ogv|ogg|mov)$/i.test(pathname);
+
 const openDocumentModal = (link) => {
   if (!documentModal) return;
   const body = documentModal.querySelector("[data-document-body]");
@@ -658,6 +654,7 @@ const openDocumentModal = (link) => {
   const href = link.href;
   const label = link.textContent.trim() || "Document";
   const isImage = /\.(png|jpe?g|gif|webp|svg)$/i.test(link.pathname);
+  const isVideo = isVideoPath(link.pathname);
   const downloadButton = documentModal.querySelector("[data-document-download]");
   const isCV = link.hasAttribute("data-cv-document");
 
@@ -672,10 +669,17 @@ const openDocumentModal = (link) => {
   if (title) title.textContent = isCV ? "Joshua Sanderson — CV" : label;
   if (body) {
     body.replaceChildren();
-    const viewer = document.createElement(isImage ? "img" : "iframe");
+    const viewer = document.createElement(isImage ? "img" : isVideo ? "video" : "iframe");
     viewer.src = href;
     viewer.title = label;
     if (isImage) viewer.alt = label;
+    if (isVideo) {
+      viewer.controls = true;
+      viewer.loop = true;
+      viewer.playsInline = true;
+      viewer.preload = "metadata";
+      viewer.setAttribute("aria-label", label);
+    }
     body.appendChild(viewer);
   }
 
@@ -689,7 +693,7 @@ documentLinks.forEach((link) => {
   link.setAttribute("rel", "noreferrer");
 
   link.addEventListener("click", (event) => {
-    if (window.matchMedia("(max-width: 780px)").matches) return;
+    if (window.matchMedia("(max-width: 780px)").matches && !isVideoPath(link.pathname)) return;
     event.preventDefault();
     openDocumentModal(link);
   });

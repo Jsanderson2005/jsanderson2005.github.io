@@ -10,11 +10,11 @@
     <meta property="og:title" content="The Government Inspector | Joshua Sanderson" />
     <meta property="og:description" content="The Government Inspector technical management work, show photos, credits, and documentation." />
     <meta property="og:url" content="https://jsanderson.net/productions/the-government-inspector.html" />
-    <meta property="og:image" content="https://jsanderson.net/assets/photos/productions/the-government-inspector/government-inspector-hero.jpg" />
+    <meta property="og:image" content="https://jsanderson.net/assets/photos/productions/the-government-inspector/government-inspector-hero.webp" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="The Government Inspector | Joshua Sanderson" />
     <meta name="twitter:description" content="The Government Inspector technical management work, show photos, credits, and documentation." />
-    <meta name="twitter:image" content="https://jsanderson.net/assets/photos/productions/the-government-inspector/government-inspector-hero.jpg" />
+    <meta name="twitter:image" content="https://jsanderson.net/assets/photos/productions/the-government-inspector/government-inspector-hero.webp" />
     <link rel="icon" href="../assets/photos/js-powder-logo-512.png" type="image/png" />
     <link rel="stylesheet" href="../styles.css" />
   </head>
@@ -34,7 +34,7 @@
     <main>
       <section class="show-hero">
         <div class="show-hero__image">
-          <img decoding="async" fetchpriority="high" src="../assets/photos/productions/the-government-inspector/government-inspector-hero.jpg" srcset="../assets/photos/productions/the-government-inspector/government-inspector-hero-640.jpg 640w, ../assets/photos/productions/the-government-inspector/government-inspector-hero-1200.jpg 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-hero.jpg 1800w" sizes="100vw" alt="The Government Inspector production photo" />
+          <img decoding="async" fetchpriority="high" src="../assets/photos/productions/the-government-inspector/government-inspector-hero.webp" srcset="../assets/photos/productions/the-government-inspector/government-inspector-hero-640.webp 640w, ../assets/photos/productions/the-government-inspector/government-inspector-hero-1200.webp 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-hero.webp 1800w" sizes="100vw" alt="The Government Inspector production photo" />
         </div>
         <div class="show-hero__copy">
           <p class="eyebrow">Technical Manager</p>
@@ -54,7 +54,7 @@
           <h2 id="role-title">Technical Manager</h2>
         </div>
         <div class="role-card">
-          <p>I designed the rigging and automation which was revealed behind the set.</p>
+          <p>I designed the rigging and automation which was revealed behind the set. During this project I utilised Braceworks to help with my rigging and bridle calculations.</p>
         </div>
       </section>
 
@@ -63,40 +63,74 @@
           <div class="detail-panel">
             <span class="label">Credits</span>
             <ul class="credit-list">
-              <li><strong>Charlotte Espiner</strong> designer</li>
-              <li><strong>Rohan Green</strong> lighting designer</li>
+              <li><strong>Charlotte Espiner</strong> Designer</li>
+              <li><strong>Rohan Green</strong> Lighting Designer</li>
             </ul>
           </div>
         </aside>
 
         <div class="detail-stack">
+          <section class="detail-panel" id="documentation" aria-labelledby="documentation-title">
+            <span class="label">Documentation</span>
+            <h2 id="documentation-title">Production Planning</h2>
+            <ol class="docs-grid doc-process" data-doc-process>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="government-inspector-doc-foh-trusses">FOH Trusses</button>
+                <div class="doc-card__details" id="government-inspector-doc-foh-trusses" data-doc-step-panel hidden>
+                  <p class="doc-card__description">The original concept from the LD asked for some trusses in the auditorium.</p>
+                  <p class="doc-card__description">These were originally going to be live-flown, but due to the Kinesys winches and drives we had (elevation drives, which were not rated to the use case we needed, as per BS17206) and the fly height in the auditorium, we changed these to be static.</p>
+                  <p class="doc-card__description">Due to the weight capacity of these, I ended up hanging these on a bridle to in-house rigging points, which were concrete-casted strut channels.</p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/the-government-inspector/tgi-dp-01-foh-trusses.pdf">Braceworks calculation for the FOH trusses</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="government-inspector-doc-pivoting-parcan-truss">Pivoting Parcan Truss</button>
+                <div class="doc-card__details" id="government-inspector-doc-pivoting-parcan-truss" data-doc-step-panel hidden>
+                  <p class="doc-card__description">The LD also wanted a Parcan truss that tilted and trimmed up and down. Due to the hoists we had left, we only had two big tow winches, which had the capacity to fly the truss, but on two points the deflection on the truss would be out of bounds.</p>
+                  <p class="doc-card__description">We ended up bridling the truss, but this did not mean we could tilt it: so we manufactured pulleys to be at the apex of the bridle so that the bridle legs could adjust to the tilt.</p>
+                  <p class="doc-card__description">These were made up of a mixture of Hall Stage pulleys and 12mm sheet steel plates. Below is a Braceworks render of the bridles, but more calculations were done for the different tilt positions and the E-stop forces on the truss and grid.</p>
+                  <p class="doc-card__description">There is also a video of the truss running.</p>
+                  <div class="doc-card__actions">
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/the-government-inspector/tilting-truss.mp4">Truss in action</a>
+                    <a class="doc-card__open" data-document-link href="../assets/docs/productions/the-government-inspector/tgi-dp-02-tilting-truss.pdf">Truss in action</a>
+                  </div>
+                </div>
+              </li>
+              <li class="doc-card doc-card--contact">
+                <button class="doc-card__trigger" type="button" data-doc-step-trigger aria-expanded="false" aria-controls="fika-doc-context">What the files do not show</button>
+                <div class="doc-card__details" id="fika-doc-context" data-doc-step-panel hidden>
+                  <p class="doc-card__description">I don't want to share rigging tips on the open internet! And the files provided only show a fraction of what I produced for the show. If there are any other questions, you can contact me below:</p>
+                  <div class="doc-card__actions doc-card__actions--contact">
+                    <a class="doc-card__open" href="mailto:joshua@jsanderson.net">Email</a>
+                    <a class="doc-card__open" href="https://www.linkedin.com/in/joshua-sanderson-0bb244241/" target="_blank" rel="noreferrer">LinkedIn</a>
+                    <a class="doc-card__open" href="https://www.instagram.com/joshuasandersontech" target="_blank" rel="noreferrer">Instagram</a>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </section>
+
           <section class="detail-panel" id="gallery" aria-labelledby="gallery-title">
             <span class="label">Photos</span>
             <h2 id="gallery-title">Show gallery</h2>
             <div class="gallery">
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-government-inspector/government-inspector-hero.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-government-inspector/government-inspector-hero.jpg" srcset="../assets/photos/productions/the-government-inspector/government-inspector-hero-640.jpg 640w, ../assets/photos/productions/the-government-inspector/government-inspector-hero-1200.jpg 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-hero.jpg 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Government Inspector production lighting photo" />
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-government-inspector/government-inspector-hero.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-government-inspector/government-inspector-hero.webp" srcset="../assets/photos/productions/the-government-inspector/government-inspector-hero-640.webp 640w, ../assets/photos/productions/the-government-inspector/government-inspector-hero-1200.webp 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-hero.webp 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Government Inspector production lighting photo" />
               </button>
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-government-inspector/government-inspector-1.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-government-inspector/government-inspector-1.jpg" srcset="../assets/photos/productions/the-government-inspector/government-inspector-1-640.jpg 640w, ../assets/photos/productions/the-government-inspector/government-inspector-1-1200.jpg 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-1.jpg 1400w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Government Inspector stage photo" />
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-government-inspector/government-inspector-1.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-government-inspector/government-inspector-1.webp" srcset="../assets/photos/productions/the-government-inspector/government-inspector-1-640.webp 640w, ../assets/photos/productions/the-government-inspector/government-inspector-1-1200.webp 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-1.webp 1400w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Government Inspector stage photo" />
               </button>
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-government-inspector/government-inspector-2.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-government-inspector/government-inspector-2.jpg" srcset="../assets/photos/productions/the-government-inspector/government-inspector-2-640.jpg 640w, ../assets/photos/productions/the-government-inspector/government-inspector-2-1200.jpg 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-2.jpg 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Government Inspector backlit stage and set" />
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-government-inspector/government-inspector-2.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-government-inspector/government-inspector-2.webp" srcset="../assets/photos/productions/the-government-inspector/government-inspector-2-640.webp 640w, ../assets/photos/productions/the-government-inspector/government-inspector-2-1200.webp 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-2.webp 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Government Inspector backlit stage and set" />
               </button>
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-government-inspector/government-inspector-3.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-government-inspector/government-inspector-3.jpg" srcset="../assets/photos/productions/the-government-inspector/government-inspector-3-640.jpg 640w, ../assets/photos/productions/the-government-inspector/government-inspector-3-1200.jpg 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-3.jpg 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Government Inspector scenic truss structure under blue light" />
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-government-inspector/government-inspector-3.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-government-inspector/government-inspector-3.webp" srcset="../assets/photos/productions/the-government-inspector/government-inspector-3-640.webp 640w, ../assets/photos/productions/the-government-inspector/government-inspector-3-1200.webp 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-3.webp 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Government Inspector scenic truss structure under blue light" />
               </button>
-              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-government-inspector/government-inspector-4.jpg">
-                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-government-inspector/government-inspector-4.jpg" srcset="../assets/photos/productions/the-government-inspector/government-inspector-4-640.jpg 640w, ../assets/photos/productions/the-government-inspector/government-inspector-4-1200.jpg 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-4.jpg 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Government Inspector automated truss installation viewed from above" />
+              <button type="button" data-gallery-image data-full="../assets/photos/productions/the-government-inspector/government-inspector-4.webp">
+                <img loading="lazy" decoding="async" src="../assets/photos/productions/the-government-inspector/government-inspector-4.webp" srcset="../assets/photos/productions/the-government-inspector/government-inspector-4-640.webp 640w, ../assets/photos/productions/the-government-inspector/government-inspector-4-1200.webp 1200w, ../assets/photos/productions/the-government-inspector/government-inspector-4.webp 1800w" sizes="(max-width: 780px) 100vw, 30vw" alt="The Government Inspector automated truss installation viewed from above" />
               </button>
-            </div>
-          </section>
-
-          <section class="detail-panel" id="documentation" aria-labelledby="documentation-title">
-            <span class="label">Documentation</span>
-            <h2 id="documentation-title">Production files</h2>
-            <div class="docs-grid">
-              <a class="doc-link" href="../assets/docs/productions/the-government-inspector/tgi-dp-01-foh-trusses.pdf">TGI-DP-01 FOH Trusses</a>
             </div>
           </section>
         </div>
